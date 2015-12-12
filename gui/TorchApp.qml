@@ -1,0 +1,120 @@
+//Sailfish Imports
+//import QtQuick 2.0
+//user interface abstraction layer so both harmattan and sailfish can be supported with the same code base
+//import org.flyingsheep.abstractui 1.0
+//import org.nemomobile.policy 1.0
+//import GstTorch 1.0
+
+//Android Imports
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import TorchHelper 1.0
+import "../aui"
+
+//Shared Imports
+import LandedTheme 1.0
+
+//Sailfish Permissions
+//We don't want to bother with getting LED permissions unless the torch is really displayed (Emergency mode)
+//We could even defer to point of torch being turned on, but that may delay activation
+//So we could bind torch.enabled to a combination of applicationActive and thisTorch.visible
+
+//an alternative might be to use a dynamic loader bound to by visible. This might speed up overall app start up
+//See PhoneContactsPage for an example of this
+//However I suggest we defer this step until it is clear if startup time is a problem,
+//possibly I may want to make all (or most) pages dynamic (DynamicPage) instead of Page.
+//Typically in an STP case the user will only require MainPage and SMSPage. All other pages are optonal,
+//and will be visited less frequently, if at all
+
+Item {
+    id: thisTorch
+
+    Rectangle {
+        width: parent.width
+        height: 120
+        color: LandedTheme.BackgroundColorA
+    }
+
+    //property color colorA: "#808080" // "white"
+    property color colorA: LandedTheme.ButtonColorGreen
+    property color colorB: LandedTheme.ButtonColorWhite
+    //property color colorB: "#ffffff" // "grey"
+
+    AUIButton {
+        id: torchButton
+        anchors.left: parent.left
+        //anchors.leftMargin: 10
+        anchors.top: parent.top
+        //anchors.topMargin: 10
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        width: parent.width / 2
+        enabled: torch.enabled
+        text: torch.enabled ? "Torch On/Off" : "led permission not granted"
+        primaryColor: torch.torchOn ? thisTorch.colorA : thisTorch.colorB
+
+        onClicked: {
+            torch.toggleTorchOnOff();
+        }
+    }
+
+    AUIButton {
+        id: modeButton
+        width: 100
+        anchors.left: torchButton.right
+        //anchors.leftMargin: 10
+        anchors.right: parent.right
+        //anchors.rightMargin: 10
+        anchors.top: parent.top
+        //anchors.topMargin: 10
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        enabled: torch.enabled
+        text: torch.enabled ? "Beam / Flash" : "led permission not granted"
+        primaryColor: thisTorch.colorB
+        onClicked: {
+            torch.toggleTorchMode();
+        }
+    }
+
+    /*
+    //SailfishOS specific, not used on Android
+    Permissions {
+        id: permissions
+        enabled: thisTorch.visible && applicationActive //when minimized should release LED, when activated acquire LED
+        onEnabledChanged: console.log("QML Permissions: onEnabledChanged: " + enabled);
+        autoRelease: true
+        applicationClass: "player"
+        Resource {
+            type: Resource.Led
+            onAcquiredChanged: {
+                console.log("Resource.Led: permission for LED take-off acquired: " + acquired);
+            }
+        }
+    }
+    */
+    //Android equivalent to enable Torch
+    Component.onCompleted: {
+        torch.enabled = true;
+    }
+
+    //GstTorch {
+    TorchHelper {
+        id: torch
+        enabled: permissions.acquired
+        onEnabledChanged: console.log ("QML Torch: onEnabledChanged: qml properties bound to this should also change! " + enabled)
+        lightOnEnabled: false
+        property bool active: false;
+        flashRate: 200
+        onTorchOnChanged: {
+            console.log("QML: onTorchOnChanged: " + torchOn);
+        }
+        onTorchModeChanged: {
+            console.log("QML: onTorchModeChanged: " + mode)
+            console.log("Torch: " + TorchHelper.Flash)
+        }
+    }
+}
+
+
+

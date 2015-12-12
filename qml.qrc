@@ -1,0 +1,78 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+    </qresource>
+    <qresource prefix="/backend">
+        <file alias="SMSBackEnd.qml">backend/SMSBackEnd.qml</file>
+        <file alias="FavouriteContactsBackEnd.qml">backend/FavouriteContactsBackEnd.qml</file>
+        <file alias="AreaListModel.qml">backend/AreaListModel.qml</file>
+        <file alias="ContactListModel.qml">backend/ContactListModel.qml</file>
+        <file alias="GPSBackEnd.qml">backend/GPSBackEnd.qml</file>
+        <file alias="LeadingCharacterModel.qml">backend/LeadingCharacterModel.qml</file>
+        <file alias="SMSTemplateListModel.qml">backend/SMSTemplateListModel.qml</file>
+        <file alias="PhoneContactsBackEnd.qml">backend/PhoneContactsBackEnd.qml</file>
+        <file alias="RumbleEffect.qml">backend/RumbleEffect.qml</file>
+    </qresource>
+    <qresource prefix="/aui">
+        <file alias="AUIButton.qml">aui/AUIButton.qml</file>
+        <file alias="AUIButtonRow.qml">aui/AUIButtonRow.qml</file>
+        <file alias="AUICheckBoxStyle.qml">aui/AUICheckBoxStyle.qml</file>
+        <file alias="AUIPage.qml">aui/AUIPage.qml</file>
+        <file alias="AUIPageStackWindow.qml">aui/AUIPageStackWindow.qml</file>
+        <file alias="AUIPageWithMenu.qml">aui/AUIPageWithMenu.qml</file>
+        <file alias="AUIRadioButton.qml">aui/AUIRadioButton.qml</file>
+        <file alias="AUISwitch.qml">aui/AUISwitch.qml</file>
+        <file alias="AUITabButton.qml">aui/AUITabButton.qml</file>
+        <file alias="AUITabGroup.qml">aui/AUITabGroup.qml</file>
+        <file alias="AUITextArea.qml">aui/AUITextArea.qml</file>
+        <file alias="AUIMenuAction.qml">aui/AUIMenuAction.qml</file>
+    </qresource>
+    <qresource prefix="/aui/backend">
+        <file alias="AUILocation.qml">aui/backend/AUILocation.qml</file>
+        <file alias="AUIPositionSource.qml">aui/backend/AUIPositionSource.qml</file>
+        <file alias="AUICompass.qml">aui/backend/AUICompass.qml</file>
+        <file alias="AUISoundEffect.qml">aui/backend/AUISoundEffect.qml</file>
+    </qresource>
+    <qresource prefix="/gui">
+        <file alias="MainPage.qml">gui/MainPage.qml</file>
+        <file alias="AreaButtonsDelegate.qml">gui/AreaButtonsDelegate.qml</file>
+        <file alias="AreaRadioButtons.qml">gui/AreaRadioButtons.qml</file>
+        <file alias="AreaSelectionPage.qml">gui/AreaSelectionPage.qml</file>
+        <file alias="ContactButtonsDelegate.qml">gui/ContactButtonsDelegate.qml</file>
+        <file alias="ContactRadioButtons.qml">gui/ContactRadioButtons.qml</file>
+        <file alias="ContactSelectionPage.qml">gui/ContactSelectionPage.qml</file>
+        <file alias="FavouriteContactsPage.qml">gui/FavouriteContactsPage.qml</file>
+        <file alias="GreenCheckButtonStyle.qml">gui/GreenCheckButtonStyle.qml</file>
+        <file alias="GPSDisplay.qml">gui/GPSDisplay.qml</file>
+        <file alias="PhoneContactsDelegate.qml">gui/PhoneContactsDelegate.qml</file>
+        <file alias="PhoneContactDialog.qml">gui/PhoneContactDialog.qml</file>
+        <file alias="PhoneContactsTabContent.qml">gui/PhoneContactsTabContent.qml</file>
+        <file alias="PhoneContactsTab.qml">gui/PhoneContactsTab.qml</file>
+        <file alias="PhoneDialer.qml">gui/PhoneDialer.qml</file>
+        <file alias="PhoneKey.qml">gui/PhoneKey.qml</file>
+        <file alias="PhoneKeyPad.qml">gui/PhoneKeyPad.qml</file>
+        <file alias="SimpleHeader.qml">gui/SimpleHeader.qml</file>
+        <file alias="SMSDisplay.qml">gui/SMSDisplay.qml</file>
+        <file alias="SMSPage.qml">gui/SMSPage.qml</file>
+        <file alias="SMSTextEdit.qml">gui/SMSTextEdit.qml</file>
+        <file alias="TemplateButtonsHeader.qml">gui/TemplateButtonsHeader.qml</file>
+        <file alias="TemplateButtonsDelegate.qml">gui/TemplateButtonsDelegate.qml</file>
+        <file alias="TemplateButtons.qml">gui/TemplateButtons.qml</file>
+        <file alias="TorchApp.qml">gui/TorchApp.qml</file>
+    </qresource>
+    <qresource prefix="/gui/InitialCharacterPicker">
+        <file alias="CharacterButton.qml">gui/InitialCharacterPicker/CharacterButton.qml</file>
+        <file alias="CharacterGrid.qml">gui/InitialCharacterPicker/CharacterGrid.qml</file>
+        <file alias="CharacterRow.qml">gui/InitialCharacterPicker/CharacterRow.qml</file>
+        <file alias="InitialCharacterPicker.qml">gui/InitialCharacterPicker/InitialCharacterPicker.qml</file>
+    </qresource>
+    <qresource prefix="/javascript">
+        <file alias="jsonpath.js">javascript/jsonpath.js</file>
+        <file alias="jsonSupport.js">javascript/jsonSupport.js</file>
+        <file alias="readDataModel.js">javascript/readDataModel.js</file>
+        <file alias="settings.js">javascript/settings.js</file>
+        <file alias="landed.js">javascript/landed.js</file>
+        <file alias="intentUrls.js">javascript/intentUrls.js</file>
+        <file alias="message.js">javascript/message.js</file>
+    </qresource>
+</RCC>
