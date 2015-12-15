@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     torchhelper.cpp \
     aui.cpp \
     contact.cpp \
-    contactname.cpp
+    contactname.cpp \
+    contactdisplaylabel.cpp
 
 RESOURCES += qml.qrc
 
@@ -51,5 +52,6 @@ HEADERS += \
     auipageorientation.h \
     auipagestatus.h \
     contact.h \
-    contactname.h
+    contactname.h \
+    contactdisplaylabel.h
 

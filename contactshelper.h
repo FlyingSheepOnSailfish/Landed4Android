@@ -14,6 +14,7 @@ public:
     Q_INVOKABLE void getContacts();
 
     static ContactsHelper *instance() { return m_instance; }
+    static void registerTypes();
 
 signals:
     void allContactsSent();

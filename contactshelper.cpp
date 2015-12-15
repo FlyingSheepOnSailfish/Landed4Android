@@ -1,11 +1,12 @@
 #include "contactshelper.h"
 #include "contact.h"
+#include "contactname.h"
+#include "contactdisplaylabel.h"
 #include <QtAndroidExtras/QtAndroid>
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroidExtras/QAndroidJniEnvironment>
 #include <QDebug>
-
-
+#include <QtQml>
 
 ContactsHelper::ContactsHelper(QObject *parent) :
     QObject(parent)
@@ -18,6 +19,15 @@ ContactsHelper::~ContactsHelper()
 }
 
 ContactsHelper *ContactsHelper::m_instance = 0;
+
+void ContactsHelper::registerTypes() {
+    qmlRegisterType<ContactsHelper>("ContactsHelper",1,0,"ContactsHelper");
+    qRegisterMetaType<Contact>();
+    qRegisterMetaType<ContactName>();
+    QMetaType::registerComparators<ContactName>();
+    qRegisterMetaType<ContactDisplayLabel>();
+    QMetaType::registerComparators<ContactDisplayLabel>();
+}
 
 void ContactsHelper::getContacts()
 {
