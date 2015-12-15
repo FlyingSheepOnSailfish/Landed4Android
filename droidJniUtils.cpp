@@ -12,11 +12,16 @@ using namespace DroidJNI;
 namespace DroidJNI {
 
     QString castJStrToQStr(JNIEnv *env, jstring jstr) {
-        const char *cstr = env->GetStringUTFChars( jstr, 0 );
-        QString qstr(cstr);
-        env->ReleaseStringUTFChars(jstr, cstr);
-        //env->DeleteLocalRef(jstr);
-        return qstr;
+        if (jstr != NULL) {
+            //if GetStringUTFChars is fed NULL it goes bang.
+            const char *cstr = env->GetStringUTFChars( jstr, 0 );
+            QString qstr(cstr);
+            env->ReleaseStringUTFChars(jstr, cstr);
+            //env->DeleteLocalRef(jstr);
+            return qstr;
+        } else {
+            return "";
+        }
     }
 
 //    QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const QString &fieldName, const QString &fieldTypeSignature) {

@@ -86,19 +86,6 @@ public class ContactsHelper {
                     setNamesForContact(contact, id, cr);
                     Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
 
-
-/*
-                    //get the first and last names from a separate table
-                    String whereName = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-                    String[] whereNameParams = new String[]{id, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
-                    Cursor nameCur = cr.query(ContactsContract.Data.CONTENT_URI, null, whereName, whereNameParams, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-                    while (nameCur.moveToNext()) {
-                        contact.firstName  = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
-                        contact.lastName = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
-                        //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
-                    }
-                    nameCur.close();
-*/
                     contact.phoneNumbers = getNumbersForContact(id, cr);
                     contact.phoneNumbersCount =  contact.phoneNumbers.length;
                     contact.phoneNumber = contact.phoneNumbers[0];
