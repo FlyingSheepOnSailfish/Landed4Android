@@ -2,6 +2,7 @@
 #define CONTACT_H
 
 #include "contactname.h"
+#include "contactdisplaylabel.h"
 #include <QDebug>
 #include <QMetaType>
 #include <QStringList>
@@ -19,10 +20,9 @@ public:
     ~Contact();
 
     Q_PROPERTY(QString contactId MEMBER m_contactId)
-    Q_PROPERTY(QString displayLabel MEMBER m_displayLabel)
+    //Q_PROPERTY(QString displayLabel MEMBER m_displayLabel)
+    Q_PROPERTY(ContactDisplayLabel displayLabel MEMBER m_displayLabel)
     Q_PROPERTY(ContactName name MEMBER m_contactName)
-//    Q_PROPERTY(QString firstName MEMBER m_firstName)
-//    Q_PROPERTY(QString lastName MEMBER m_lastName)
     Q_PROPERTY(QString phoneNumber MEMBER m_phoneNumber)
     Q_PROPERTY(QStringList phoneNumbers MEMBER m_phoneNumbers)
     Q_PROPERTY(int phoneNumbersCount MEMBER m_phoneNumbersCount)
@@ -38,10 +38,9 @@ public:
 
 private:
     QString m_contactId;
-    QString m_displayLabel;
+    //QString m_displayLabel;
+    ContactDisplayLabel m_displayLabel;
     ContactName m_contactName;
-//    QString m_firstName;
-//    QString m_lastName;
     QString m_phoneNumber;
     QStringList m_phoneNumbers;
     int m_phoneNumbersCount;

@@ -68,7 +68,7 @@ public class ContactsHelper {
     //This example code retrieves the contacts successfully!
     private void getContacts(LandedActivity landed) {
         ContentResolver cr = landed.getContentResolver();
-        Cursor contactCursor = cr.query(Contacts.CONTENT_URI, null, null, null, null);
+        Cursor contactCursor = cr.query(Contacts.CONTENT_URI, null, null, null, "upper("+Contacts.DISPLAY_NAME+") ASC");
         int count = contactCursor.getCount();
         Log.d(QtApplication.QtTAG, "ContactsHelper.java contacts found: " + count);
         if (count > 0) {

@@ -39,20 +39,14 @@ Item {
         }
 
         function appendContact(contact) {
-            console.log("appending: " + contact.displayLabel);
-            //Note the Sailfish version has displayLabel.label, for Android we have only implemented
-            //displayLabel (w/o the .label child attribute).
+            console.log("appending: " + contact.displayLabel.label);
             localContactModel.append({"contactId": contact.contactId,
-                                  "displayLabel": contact.displayLabel,
+                                  "displayLabel": contact.displayLabel.label,
                                   "firstName": contact.name.firstName,
                                   "lastName": contact.name.lastName,
                                   "phoneNumber": contact.phoneNumber,
                                   "phoneNumbers": contact.phoneNumbers,
                                   "phoneNumbersCount": contact.phoneNumbers.length});
-//TODO: in the Qt Mobility version, we have a name object
-            //with child attributes
-//            "firstName": contact.name.firstName,
-//            "lastName": contact.name.lastName,
 
 //TODO: phoneNumber.length is available here, but later when our localContactModel is used, it is no longer available
 //How does this get lost?
