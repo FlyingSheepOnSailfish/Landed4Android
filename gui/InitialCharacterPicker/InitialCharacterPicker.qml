@@ -8,7 +8,7 @@
 //Android Imports
 import QtQuick 2.5
 
-//How does the IntialCharcterPickr work?
+//How does the IntialCharcterPicker work?
 // It's a list view, with clever header and footer components.
 // The rows of character buttons are hosted by the listView's header and footers (both the header and footer host the full alphabet)
 // Each row decides for itself if it should be visible on the header or footer.
@@ -86,10 +86,11 @@ Item {
         }
 
         function countHits4Character (character) {
+            console.log("countHits4Character for character: " + character + ", model members: " + model.count)
             var hits = 0;
             for (var j = 0; j < model.count; j++) {
 
-                //depends on model providing a function called value2Filteron in which returns the value to be filterdon.
+                //depends on model providing a function called value2FilterOn in which returns the value to be filterdon.
                 // --> still some coupling to parent element, but abstracted a bit, and made evident in example model
                 var field = model.value2FilterOn(j);
                 if (privateObject.filterMatch(field, character)) {
@@ -129,6 +130,7 @@ Item {
         }
 
         function populateModels() {
+            console.log("IPC.privateObject populateModels called. characters: "  + characters.length);
             //first count how many of each char we have in the full model
             var charsModel = []
             for (var i=0; i < characters.length; i++) {

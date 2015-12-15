@@ -19,6 +19,21 @@ namespace DroidJNI {
         return qstr;
     }
 
+//    QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const QString &fieldName, const QString &fieldTypeSignature) {
+//        jclass cls = env->GetObjectClass(jobj);
+//        jfieldID fieldId = env->GetFieldID(cls, fieldName.toUtf8().constData(), fieldTypeSignature.toUtf8().constData());
+//        jstring jstr = (jstring)env->GetObjectField(jobj, fieldId);
+//        return castJStrToQStr(env, jstr);
+//    }
+
+
+    QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+        jclass cls = env->GetObjectClass(jobj);
+        jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
+        jstring jstr = (jstring)env->GetObjectField(jobj, fieldId);
+        return castJStrToQStr(env, jstr);
+    }
+
 }
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
@@ -32,10 +47,10 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* /*reserved*/)
     // search for Java class which declares the native methods
     jclass javaClass = env->FindClass(classname);
     if (!javaClass) {
-        qDebug() << "ERROR: class not found";
+        qDebug() << "ERROR: " << classname << " not found";
         return JNI_ERR;
     } else {
-        qDebug() << "Success: class PhoneContacts found";
+        qDebug() << "Success:  " << classname << " found";
     }
     // register our native methods
     if (env->RegisterNatives(javaClass, methods, sizeof(methods) / sizeof(methods[0])) < 0) {

@@ -9,7 +9,9 @@ SOURCES += main.cpp \
     jsonstorage.cpp \
     satinfosource.cpp \
     torchhelper.cpp \
-    aui.cpp
+    aui.cpp \
+    contact.cpp \
+    contactname.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,7 +34,8 @@ DISTFILES += \
     android/src/TorchHelper.java \
     android/src/LandedActivity.java \
     android/src/TorchHelperMarshmallow.java \
-    android/src/TorchHelperLollipop.java
+    android/src/TorchHelperLollipop.java \
+    android/src/Contact.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
@@ -46,5 +49,7 @@ HEADERS += \
     torchhelper.h \
     aui.h \
     auipageorientation.h \
-    auipagestatus.h
+    auipagestatus.h \
+    contact.h \
+    contactname.h
 

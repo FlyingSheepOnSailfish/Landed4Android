@@ -51,6 +51,7 @@ public class LandedActivity extends QtActivity{
     //This method will be called from ContactsHelper.java once sent / delivered to call back to c++
     //TODO: initially signal per contact, later maybe per block of 30?
     protected static native void contactFound(int index, int count, String name, String[] numbers);
+    protected static native void contactFound2(int index, int count, Contact contact);
     protected static native void allContactsSent();
 
     /////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 #include "contactshelper.h"
+#include "contact.h"
 #include <QtAndroidExtras/QtAndroid>
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroidExtras/QAndroidJniEnvironment>
@@ -10,7 +11,6 @@ ContactsHelper::ContactsHelper(QObject *parent) :
     QObject(parent)
 {
     m_instance = this;
-    //jint i = registerNatives();
 }
 
 ContactsHelper::~ContactsHelper()
@@ -38,9 +38,23 @@ void ContactsHelper::getContacts()
 namespace DroidJNI {
     using namespace DroidJNI;
 
-    void allContactsSentByJava(JNIEnv *env, jclass /*clazz*/) {
+    void allContactsSentByJava(JNIEnv *env, jclass /*clazz*/)
+    {
         //signal to QML
         ContactsHelper::instance()->allContactsSent();
+    }
+
+    //Called from Java PhoneContacts, when a Contact is found
+    //Will in turn cause a signal to be emitted to QML
+    void contactFoundByJava2(JNIEnv *env, jclass /*clazz*/, jint index, jint count, jobject jcontact)
+    {
+        Contact contact;
+        contact.setContactId(getJObjectFieldValue(env, jcontact, "contactId", "Ljava/lang/String;"));
+        contact.setDisplayLabel(getJObjectFieldValue(env, jcontact, "displayLabel", "Ljava/lang/String;"));
+        contact.setFirstName(getJObjectFieldValue(env, jcontact, "firstName", "Ljava/lang/String;"));
+        contact.setLastName(getJObjectFieldValue(env, jcontact, "lastName", "Ljava/lang/String;"));
+        contact.setPhoneNumber(getJObjectFieldValue(env, jcontact, "phoneNumber", "Ljava/lang/String;"));
+        ContactsHelper::instance()->contactFound2(index, count, contact);
     }
 
     //Called from Java PhoneContacts, when a Contact is found

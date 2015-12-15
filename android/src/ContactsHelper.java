@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Contacts;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -69,15 +70,29 @@ public class ContactsHelper {
         ContentResolver cr = landed.getContentResolver();
         Cursor contactCursor = cr.query(Contacts.CONTENT_URI, null, null, null, null);
         int count = contactCursor.getCount();
-        Log.d(QtApplication.QtTAG, "ContactsHelper contacts found: " + count);
+        Log.d(QtApplication.QtTAG, "ContactsHelper.java contacts found: " + count);
         if (count > 0) {
             while (contactCursor.moveToNext()) {
                 String id = getColumnValue(contactCursor, Contacts._ID);
                 String name = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
-                Log.d(QtApplication.QtTAG, "ContactsHelper contact: " + name + ", id: " + id );
+                Log.d(QtApplication.QtTAG, "ContactsHelper.java contact: " + name + ", id: " + id );
                 if (hasPhoneNumber(contactCursor)) {
                     int index = contactCursor.getPosition() + 1;
-                    landed.contactFound(index, count, name, getNumbersForContact(id, cr)); //signal back to C++ contact has been found
+                    Contact contact = new Contact();
+                    contact.contactId = getColumnValue(contactCursor, Contacts._ID);
+                    contact.displayLabel = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
+                    contact.firstName = "Hello";
+                    contact.lastName = "Doll";
+                    //contact.firstName = getColumnValue(contactCursor, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+                    //contact.lastName = getColumnValue(contactCursor, ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME);
+                    contact.phoneNumbers = getNumbersForContact(id, cr);
+                    contact.phoneNumbersCount =  contact.phoneNumbers.length;
+                    contact.phoneNumber = contact.phoneNumbers[0];
+                    //new call, return data structure "contact" to C++
+                    landed.contactFound2(index, count, contact);
+
+                    //old call, separate fields returned
+                    //landed.contactFound(index, count, name, getNumbersForContact(id, cr)); //signal back to C++ contact has been found
                 }
             }
             contactCursor.close();
@@ -97,7 +112,7 @@ public class ContactsHelper {
         while (phoneCursor.moveToNext()) {
             String phoneNumber = getColumnValue(phoneCursor, Phone.NUMBER);
             String numType = getColumnValue(phoneCursor, Phone.TYPE);
-            Log.d(QtApplication.QtTAG,"Phone number: " + phoneNumber + " type: " + numType);
+            //Log.d(QtApplication.QtTAG,"Phone number: " + phoneNumber + " type: " + numType);
             numbers[phoneCursor.getPosition()] = phoneNumber;
         }
         phoneCursor.close();

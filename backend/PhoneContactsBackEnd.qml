@@ -9,15 +9,13 @@ Item {
 
     ContactsHelper {
         id: contactsHelper;
-        onContactFound: {
-            console.log ("QML: onContactFound signal received for: " + name + ": " + index + " of " + count);
-            for (var i = 0; i < numbers.length; i++) {
-                console.log ("QML: number: " + numbers[i]);
-//TODO: append to localContactModel
-                //localContactModel.append();
-            }
+        onContactFound2: {
+            console.log ("QML: onContactFound2 signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
+            localContactModelInternal.appendContact(contact);
         }
-        onAllContactsSent: {
+
+        onAllContactsSent: {         
+            console.log ("QML: onAllContactsSent signal received, sending signal backEnd.modelsPopulated()");
             backEnd.modelsPopulated();
         }
     }
@@ -41,13 +39,21 @@ Item {
         }
 
         function appendContact(contact) {
+            console.log("appending: " + contact.displayLabel);
+            //Note the Sailfish version has displayLabel.label, for Android we have only implemented
+            //displayLabel (w/o the .label child attribute).
             localContactModel.append({"contactId": contact.contactId,
-                                  "displayLabel": contact.displayLabel.label,
+                                  "displayLabel": contact.displayLabel,
                                   "firstName": contact.name.firstName,
                                   "lastName": contact.name.lastName,
                                   "phoneNumber": contact.phoneNumber,
                                   "phoneNumbers": contact.phoneNumbers,
                                   "phoneNumbersCount": contact.phoneNumbers.length});
+//TODO: in the Qt Mobility version, we have a name object
+            //with child attributes
+//            "firstName": contact.name.firstName,
+//            "lastName": contact.name.lastName,
+
 //TODO: phoneNumber.length is available here, but later when our localContactModel is used, it is no longer available
 //How does this get lost?
             //console.log("appending: " + contact.displayLabel.label + ", numbers: " + contact.phoneNumbers.length)
@@ -56,6 +62,8 @@ Item {
         }
         //This function is required for InitialCharacterPicker, which is the consumer of this model
         function value2FilterOn(index){
+            console.log("localContactModelInternal.value2FilterOn called: " + get(index).displayLabel)
+//TODO: why does this give us undefined?
             return get(index).displayLabel;
         }
     }

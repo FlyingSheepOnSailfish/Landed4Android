@@ -35,6 +35,7 @@ Rectangle {
     PhoneContactsBackEnd {
         id: phoneContactBackEnd
         onModelsPopulated: {
+            console.log("PhoneContactTabContent: onModelsPopulated received from Backend, about to populate IPC")
             contactPicker.populate();
             loadingText.visible = false
         }

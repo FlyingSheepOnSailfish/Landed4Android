@@ -10,7 +10,8 @@
 #include "satinfosource.h"
 #include "smshelper.h"
 #include "contactshelper.h"
-
+#include "contact.h"
+#include "contactname.h"
 
 
 static QObject *aui_singletontype_provider(QQmlEngine *engine, QJSEngine *scriptEngine)
@@ -55,6 +56,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<SatInfoSource>("SatInfoSource",1,0,"SatInfoSource");
     qmlRegisterType<SmsHelper>("SmsHelper",1,0,"SmsHelper");
     qmlRegisterType<ContactsHelper>("ContactsHelper",1,0,"ContactsHelper");
+    qRegisterMetaType<Contact>();
+    qRegisterMetaType<ContactName>();
+    QMetaType::registerComparators<ContactName>();
     qmlRegisterType<TorchHelper>("TorchHelper",1,0,"TorchHelper");
 
     QQmlApplicationEngine engine;
