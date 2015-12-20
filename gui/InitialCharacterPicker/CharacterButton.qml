@@ -27,9 +27,12 @@ Text {
         }
     }
 
+//TODO: read these colours from LandedTheme
     property color emptyColor: "darkgrey"
-    property color normalColor: "white"
-    property color selectedColor: "lightblue"
+    //property color normalColor: "white"
+    //property color selectedColor: "lightblue"
+    property color normalColor: "black"
+    property color selectedColor: "darkblue"
     property real normalOpacity: 0.25
     property real selectedOpacity: 0.1
 

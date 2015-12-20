@@ -63,13 +63,18 @@ public class ContactsHelper {
                 }
         }.execute((Void[]) null);
 
-    }
+    }    
 
-    //This example code retrieves the contacts successfully!
     private void getContacts(LandedActivity landed) {
         ContentResolver cr = landed.getContentResolver();
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
-        Cursor contactCursor = cr.query(CONTENT_URI, null, null, null, "upper("+Contacts.DISPLAY_NAME+") ASC");
+        //Order by names with leading char = character first (case insensitive), second those starting with a numeral, finally anything else.
+        String orderBy =  "CASE"
+                        + " WHEN " + Contacts.DISPLAY_NAME + " GLOB '[A-z]*' THEN 'A' || " + Contacts.DISPLAY_NAME
+                        + " WHEN " + Contacts.DISPLAY_NAME + " GLOB '[0-9]*' THEN 'B' || " + Contacts.DISPLAY_NAME
+                        + " ELSE 'C' || " + Contacts.DISPLAY_NAME
+                        + " END COLLATE NOCASE";
+        Cursor contactCursor = cr.query(CONTENT_URI, null, null, null, orderBy);
         int count = contactCursor.getCount();
         Log.d(QtApplication.QtTAG, "ContactsHelper.java contacts found: " + count);
         if (count > 0) {
@@ -82,31 +87,13 @@ public class ContactsHelper {
                     Contact contact = new Contact();
                     contact.contactId = getColumnValue(contactCursor, Contacts._ID);
                     contact.displayLabel = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
-
                     setNamesForContact(contact, id, cr);
-                    Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
-
-
-/*
-                    //get the first and last names from a separate table
-                    String whereName = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
-                    String[] whereNameParams = new String[]{id, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
-                    Cursor nameCur = cr.query(ContactsContract.Data.CONTENT_URI, null, whereName, whereNameParams, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-                    while (nameCur.moveToNext()) {
-                        contact.firstName  = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
-                        contact.lastName = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
-                        //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
-                    }
-                    nameCur.close();
-*/
+                    //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
                     contact.phoneNumbers = getNumbersForContact(id, cr);
                     contact.phoneNumbersCount =  contact.phoneNumbers.length;
                     contact.phoneNumber = contact.phoneNumbers[0];
                     //new call, return data structure "contact" to C++
                     landed.contactFound2(index, count, contact);
-
-                    //old call, separate fields returned
-                    //landed.contactFound(index, count, name, getNumbersForContact(id, cr)); //signal back to C++ contact has been found
                 }
             }
             contactCursor.close();

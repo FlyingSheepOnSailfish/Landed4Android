@@ -22,8 +22,8 @@ Row {
             // Properties directly set are set initially only i.e. not bound to parent property.
             // An Explicit binding function is required to bind propierties of dynamic child to parent properties.
             // http://qt-project.org/doc/qt-5.0/qtqml/qml-qt.html#binding-method
-            var text = characters[i].char;
-            var hits = characters[i].hits;
+            var text = characters[i].character;
+            var hits = characters[i].charHits.hits;
             //console.log("char is: " + text + ", hits: " + hits + ", index: " + i  + " of: " + characters.length)
             characterButton = component.createObject(characterRow,
                                                      {"text": text,

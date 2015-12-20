@@ -74,5 +74,6 @@
         <file alias="landed.js">javascript/landed.js</file>
         <file alias="intentUrls.js">javascript/intentUrls.js</file>
         <file alias="message.js">javascript/message.js</file>
+        <file alias="initialCharacterPicker.js">javascript/initialCharacterPicker.js</file>
     </qresource>
 </RCC>

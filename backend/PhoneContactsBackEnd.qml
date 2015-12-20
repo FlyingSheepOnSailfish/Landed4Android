@@ -12,6 +12,7 @@ Item {
         onContactFound2: {
             console.log ("QML: onContactFound2 signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
             localContactModelInternal.appendContact(contact);
+//TODO, send signal to GUI, so loading indicator can show progress....
         }
 
         onAllContactsSent: {         
@@ -33,6 +34,7 @@ Item {
     ListModel {
         id: localContactModelInternal
 
+        property string role2FilterOn: "displayLabel";
         function populate() {
             clear();
             contactsHelper.getContacts();
@@ -53,12 +55,6 @@ Item {
             //console.log("appending: " + contact.displayLabel.label + ", numbers: " + contact.phoneNumbers.length)
             //phoneNumbers is a dynamic property of ContactModel, and is only partially documented
             //harmattan uses contact.displayLabel, sailfish contact.displayLabel.label
-        }
-        //This function is required for InitialCharacterPicker, which is the consumer of this model
-        function value2FilterOn(index){
-            console.log("localContactModelInternal.value2FilterOn called: " + get(index).displayLabel)
-//TODO: why does this give us undefined?
-            return get(index).displayLabel;
         }
     }
 

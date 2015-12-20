@@ -8,6 +8,9 @@
 //Android Imports
 import QtQuick 2.5
 
+//Shared Imports
+import "../../javascript/initialCharacterPicker.js" as IPCJS
+
 //How does the IntialCharcterPicker work?
 // It's a list view, with clever header and footer components.
 // The rows of character buttons are hosted by the listView's header and footers (both the header and footer host the full alphabet)
@@ -73,6 +76,15 @@ Item {
         id: privateObject
         property variant charactersModel
 
+        function getChar(character) {
+            for (var i=0; i < privateObject.charactersModel.length; i++) {
+                if (privateObject.charactersModel[i].character == character) {
+                    console.log("privateObject.getChar: character: " + character + " found");
+                    return privateObject.charactersModel[i];
+                }
+            }
+        }
+
         function filterMatch(field2Filter, filterCharacter) {
             //console.log("filterCharacter: " + filterCharacter)
             var left = field2Filter.trim()
@@ -85,77 +97,94 @@ Item {
             }
         }
 
-        function countHits4Character (character) {
-            console.log("countHits4Character for character: " + character + ", model members: " + model.count)
-            var hits = 0;
-            for (var j = 0; j < model.count; j++) {
+        function countHits4Character (charHits) {
+            console.log("starting countHits4Character for character: " + charHits.character + ", model members: " + model.count)
+            charHits.hits = 0;
+            charHits.startIndex = charHits.endIndex; //start where we last ended
+            for (var j = charHits.startIndex; j < model.count; j++) {
+                //Using ["displayLabel"] we can access fields dynamically by name (not hard coded by dot notation)
+                //This means we can have a property role2Filter as a hint which role we use
+                //but would be free to use another if we so chose.
+                var value2FilterOn = model.get(j)[model.role2FilterOn];
+                console.log("countHits4Character: displayLabel: " + value2FilterOn);
 
-                //depends on model providing a function called value2FilterOn in which returns the value to be filterdon.
-                // --> still some coupling to parent element, but abstracted a bit, and made evident in example model
-                var field = model.value2FilterOn(j);
-                if (privateObject.filterMatch(field, character)) {
-                    hits++;
+                if (privateObject.filterMatch(value2FilterOn, charHits.character)) {
+                    charHits.hits++;
+                } else {
+                    if (charHits.hits > 0) {
+                        console.log("we have encountered a new character!");
+                    } else {
+//TODO add special handling here for character type
+//If the passed filter char is A-Z, and value2FilterOn is numeric, skip to next item
+//Or better said if chars are same type --> problem
+//if different type /number vs char, skip to next char.
+
+                        console.log("there are no hits for this char: " + charHits.character);
+                    }
+                    //In either case:
+                    // a) abort this loop, and
+                    // b) start the loop for the next character at this point
+                    charHits.endIndex = j;
+                    break;
                 }
 
                 /*
-                //dynamic attempt (does not work (yet))
-                //--> still some coupling, but all the user has to do is provide a string property, not a function.
-                var rec = model.get(j);
-                console.log("rec: " + rec);
-                var getValue2Filter = new Function(
-                            "return function foo(){ return " + rec + "." + model.role2Filter + " }"
-                )();
-                var value2Filter = getValue2Filter();
+                The original CountHits4Character function looped through the entire Contact model multiple times, once per char.
+                This version tries to loop through the model and char in parallel, making the assumption that bot models are sorted
+                alphabetically.
 
-                console.log("field2FilterOn: " + field)
-                if (value2Filter.charAt(0).toUpperCase() == character.toUpperCase()) {
-                    hits++;
-                }
-                //end dynamic attempt
+                Note that the number of hits per char is sent down to CharacterButton level,
+                but the only important factor is: 0 or > 0.  i.e. no hits vs. hits. The true number of hits is NOT used.
                 */
-
-
-                /*
-                //original version, depends on model having role displayLabel
-                // --> very nasty coupling of child to parent
-                var rec = model.get(j);
-                console.log ("rec: " + rec);
-                if (rec.displayLabel.charAt(0).toUpperCase() == character.toUpperCase()) {
-                    hits++;
-                }
-                */
-
             }
-            return hits;
+            console.log("ending countHits4Character for character: " + charHits.character + ", hits: " + charHits.hits + ", start: " + charHits.startIndex + ", end: " + charHits.endIndex);
+            return charHits;
         }
 
+//THINK! as currently sorted, contacts with numeric display labels
+// are the start of the contact model, but we have the number button at the end of the character model!
         function populateModels() {
             console.log("IPC.privateObject populateModels called. characters: "  + characters.length);
-            //first count how many of each char we have in the full model
             var charsModel = []
+            var charHits = new IPCJS.CharHits("", 0, 0, 0);
             for (var i=0; i < characters.length; i++) {
-                var character = characters[i]
+                charHits.character = characters[i];
                 var hits = 0;
                 if (characters[i] == "%") {
                     //Wildcard for all leading characters
-                    hits = picker.model.count;
+                    charHits.hits = picker.model.count;
                 }
                 else if (characters[i] == "#") {
                     //Wildcard for leading numerals
+                    var numeralHits = 0;
+                    var startIndex = 0;
                     for (var j = 0; j <= 9; j++) {
-                        hits = hits + countHits4Character(j.toString());
+                        charHits.character = j.toString();
+                        charHits = countHits4Character(charHits);
+                        numeralHits = numeralHits + charHits.hits;
+                        if ((numeralHits > 0) && (startIndex == 0)) {
+                             //startIndex has to be set to the lowest value where numeralHits is positive
+                            startIndex = (charHits.endIndex - charHits.hits);
+                        }
                     }
+                    charHits.character = "#";
+                    charHits.startIndex = startIndex;
+                    charHits.endIndex = startIndex + numeralHits;
+                    charHits.hits = numeralHits;
                 }
                 else {
                     //normal character
-                    hits = countHits4Character(character);
+                    charHits = countHits4Character(charHits);
                 }
-                charsModel.push({"char": character, "hits": hits});
+                console.log("populateModels: pushing: " + charHits.character + ", startIndex: " + charHits.startIndex + ", endIndex: " + charHits.endIndex);
+                //clone the object before pushing ... to prevent subsequent changes affecting the pushed copies ...
+                var pushCharHits = charHits.clone();
+                charsModel.push({"character": pushCharHits.character, charHits: pushCharHits});
             }
             console.log("populateModels: length: " + charsModel.length)
 
             //when charactersModel changes, the header and footer dynamically create their rows
-            //any previously created rows are destroyed (see CharacterGrid.aml)
+            //any previously created rows are destroyed (see CharacterGrid.qml)
             privateObject.charactersModel = charsModel;
 
             //Now populate the filter model
@@ -183,9 +212,11 @@ Item {
             }
             else if (filter =="#") {
                 //Wildcard for all numeric entries
-                for (var j = 0; j <= 9; j++) {
-                    bulkAppend(model, j.toString());
-                }
+                //filter on the chosen character
+                bulkAppend(model, filter);
+//                for (var j = 0; j <= 9; j++) {
+//                    bulkAppend(model, j.toString());
+//                }
             }
             else {
                 //filter on the chosen character
@@ -194,13 +225,13 @@ Item {
             console.log("populated filteredModel with entries: " + filteredModel.count);
         }
         function bulkAppend(model, filter) {
-            for (var i = 0; i < model.count; i ++) {
-                var field = model.value2FilterOn(i);
-                if (privateObject.filterMatch(field, filter)) {
-                    //console.log("appending to filteredModel")
-                    var rec = model.get(i);
-                    filteredModel.append(rec);
-                }
+            var character = privateObject.getChar(filter);
+            var startIndex = character.charHits.startIndex;
+            var endIndex = character.charHits.endIndex;
+            console.log("Bulk appending entries for character: " + filter + ", " + character.charHits.character +", startIndex: " + startIndex + ", endIndex: " + endIndex);
+            for (var i = startIndex; i < endIndex; i ++) {
+                var rec = model.get(i);
+                filteredModel.append(rec);
             }
         }
     }
@@ -221,6 +252,7 @@ Item {
         id: characterHeader
         CharacterGrid {
             charactersPerRow: picker.charactersPerRow
+//this property binding communicates the "change" from the privateObject to the buttons
             charactersModel: privateObject.charactersModel
             //these 3 properties used to determine which character rows should be open on header or footer
             selectedCharacter: picker.selectedCharacter
