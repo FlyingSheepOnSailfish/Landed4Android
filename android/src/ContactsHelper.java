@@ -93,7 +93,7 @@ public class ContactsHelper {
                     contact.phoneNumbersCount =  contact.phoneNumbers.length;
                     contact.phoneNumber = contact.phoneNumbers[0];
                     //new call, return data structure "contact" to C++
-                    landed.contactFound2(index, count, contact);
+                    landed.contactFound(index, count, contact);
                 }
             }
             contactCursor.close();

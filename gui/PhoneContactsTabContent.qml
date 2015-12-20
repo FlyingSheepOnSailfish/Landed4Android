@@ -90,8 +90,6 @@ Rectangle {
             onClicked: {
                 console.log("model.displayLabel: " + model.displayLabel)
                 console.log("model.phoneNumbers: " + model.phoneNumbers + " count: " + model.phoneNumbersCount)
-                //console.log("model.phoneNumbers: " + model.phoneNumbers + " length: " + model.phoneNumbers.length)
-                //phoneContactBackEnd.contactNumbersModel.loadNumbers(model.displayLabel, model.phoneNumbers, model.phoneNumbersCount )
                 phoneContactBackEnd.contactNumbersModel.loadNumbers(model);
                 contactDialog.model = phoneContactBackEnd.nullModel;
                 console.log("phoneContactBackEnd.contactNumbersModel.count: " + phoneContactBackEnd.contactNumbersModel.count)

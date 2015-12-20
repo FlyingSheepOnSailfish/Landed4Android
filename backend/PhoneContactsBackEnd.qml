@@ -4,6 +4,8 @@ import ContactsHelper 1.0
 Item {
     id: backEnd
     property alias localContactModel: localContactModelInternal
+    property alias contactNumbersModel: contactNumbersModelInternal
+    property alias nullModel: nullModelInternal
     property int index: 0;
     property int count: 0;
 
@@ -12,8 +14,8 @@ Item {
 
     ContactsHelper {
         id: contactsHelper;
-        onContactFound2: {
-            console.log ("QML: onContactFound2 signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
+        onContactFound: {
+            console.log ("QML: onContactFound signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
             backEnd.index = index;
             backEnd.count = count;
             localContactModelInternal.appendContact(contact);
@@ -63,6 +65,30 @@ Item {
         }
     }
 
+    //Stores the phone numbers and types of one contact
+    ListModel {
+        id: contactNumbersModelInternal
+
+        function loadNumbers(contact) {
+            console.log("loadNumbers: name to load: " + contact.displayLabel)
+            console.log("loadNumbers: numbers to load: " + contact.phoneNumbersCount);
+            console.log("loadNumbers: numbers to load2: " + contact.phoneNumbers.length);
+            contactNumbersModelInternal.clear();
+            for(var i = 0; i < contact.phoneNumbersCount; i++) {
+                console.log("appending number" + contact.phoneNumbers[i] + ", " + contact.phoneNumbers[i].number + ", " + contact.phoneNumbers[i].subTypes[0] + ", " + contact.displayLabel )
+                var subType = (contact.phoneNumbers[i].subTypes[0] === undefined) ? "" : contact.phoneNumbers[i].subTypes[0]
+                contactNumbersModelInternal.append({num: contact.phoneNumbers[i].number, type: subType, name: contact.displayLabel});
+            }
+        }
+
+        function flushNumbers() {
+            contactNumbersModelInternal.clear();
+        }
+
+    }
+    ListModel {
+        id: nullModelInternal
+    }
 }
 
 
@@ -73,8 +99,5 @@ TODO:
 1) PhoneContactsBackEnd expects a "phoneContactBackEnd.localContactModel" to use
 as the model for the InitialCharacterPicker model.
 See QML ListModel
-2) Once all Contacts have been retreived from Java API,
-we need to emit the modelsPopulated signal
-3) We need to provide a model for the contact itself. See original Sailfish Code.
 
 */

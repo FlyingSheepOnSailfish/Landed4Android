@@ -18,8 +18,7 @@ public:
 
 signals:
     void allContactsSent();
-    void contactFound(const int index, const int count, const QString &name, const QVariantList &numbers);
-    void contactFound2(const int index, const int count, const Contact &contact);
+    void contactFound(const int index, const int count, const Contact &contact);
 
 private:
     static ContactsHelper *m_instance;

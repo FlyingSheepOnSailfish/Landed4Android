@@ -28,6 +28,8 @@ class LandedTheme : public QObject
     Q_PROPERTY(int LabelWidthShort READ LabelWidthShort CONSTANT)
     Q_PROPERTY(int LabelWidthLong READ LabelWidthLong CONSTANT)
 
+    Q_PROPERTY(int ListItemHeight READ ListItemHeight CONSTANT)
+
     Q_PROPERTY(int FontSizeVeryLarge READ FontSizeVeryLarge CONSTANT)
     Q_PROPERTY(int FontSizeLarge READ FontSizeLarge CONSTANT)
     Q_PROPERTY(int FontSizeMedium READ FontSizeMedium CONSTANT)
@@ -63,6 +65,10 @@ public:
     //int LabelWidthLong() const {return 320;} //sailfish
     int LabelWidthShort() const {return 230;}
     int LabelWidthLong() const {return 520;}
+
+    //int ListItemHeight() const {return 70;} //sailfish
+    int ListItemHeight() const {return 170;}
+
     int FontSizeVeryLarge() const { return 72 * 2;}
     int FontSizeLarge() const { return 40 * 2;}
     int FontSizeMedium() const { return 32 * 2;}

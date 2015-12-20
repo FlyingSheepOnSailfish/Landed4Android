@@ -15,12 +15,13 @@ Item {
     Text {
         id: nameText
         anchors {left: parent.left; leftMargin: 20; right: parent.right; rightMargin: 20; top: parent.top}
-        //font.pixelSize: pageContent.listpixelSize;
-        font.pixelSize: LandedTheme.FontSizeMedium
-        font.weight: Font.DemiBold
+        //font.pixelSize: LandedTheme.FontSizeMedium; //SailfishOS
+        font.pixelSize: LandedTheme.FontSizeLarge;
+        //font.weight: Font.DemiBold; //SailfishOS, looks too heavy on Android
         text: model.displayLabel;
-        color: "lightblue"
-        height: 70
+        //color: "lightblue"
+        color: "blue";
+        height: LandedTheme.ListItemHeight;
         verticalAlignment: Text.AlignVCenter
     }
     /*
