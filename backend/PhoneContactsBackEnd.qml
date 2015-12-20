@@ -4,13 +4,18 @@ import ContactsHelper 1.0
 Item {
     id: backEnd
     property alias localContactModel: localContactModelInternal
+    property int index: 0;
+    property int count: 0;
 
     signal modelsPopulated;
+
 
     ContactsHelper {
         id: contactsHelper;
         onContactFound2: {
             console.log ("QML: onContactFound2 signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
+            backEnd.index = index;
+            backEnd.count = count;
             localContactModelInternal.appendContact(contact);
 //TODO, send signal to GUI, so loading indicator can show progress....
         }

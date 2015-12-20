@@ -25,10 +25,11 @@ Rectangle {
 
     Text {
         id: loadingText
-        text: "Contacts loading ..."
-        color: "lightblue"
+        text: "Contacts loading ... " + phoneContactBackEnd.index + " of " + phoneContactBackEnd.count
+        //color: "lightblue"
+        color: "blue"
         visible: true
-        font.pixelSize: 30
+        font.pixelSize: LandedTheme.FontSizeLarge
         anchors.centerIn : parent
     }
 
