@@ -75,9 +75,15 @@ Item {
             console.log("loadNumbers: numbers to load2: " + contact.phoneNumbers.length);
             contactNumbersModelInternal.clear();
             for(var i = 0; i < contact.phoneNumbersCount; i++) {
-                console.log("appending number" + contact.phoneNumbers[i] + ", " + contact.phoneNumbers[i].number + ", " + contact.phoneNumbers[i].subTypes[0] + ", " + contact.displayLabel )
-                var subType = (contact.phoneNumbers[i].subTypes[0] === undefined) ? "" : contact.phoneNumbers[i].subTypes[0]
-                contactNumbersModelInternal.append({num: contact.phoneNumbers[i].number, type: subType, name: contact.displayLabel});
+                //console.log("appending number" + contact.phoneNumbers[i] + ", " + contact.phoneNumbers[i].number + ", " + contact.phoneNumbers[i].subTypes[0] + ", " + contact.displayLabel )
+                //var subType = (contact.phoneNumbers[i].subTypes[0] === undefined) ? "" : contact.phoneNumbers[i].subTypes[0]
+                //contactNumbersModelInternal.append({num: contact.phoneNumbers[i].number, type: subType, name: contact.displayLabel});
+//TODO: Decide do we want to keep numbers as
+//a) a "simple" QStringList, or
+//b) an object structure, inc subtype?
+
+                console.log("appending number: " + contact.phoneNumbers[i]);
+
             }
         }
 

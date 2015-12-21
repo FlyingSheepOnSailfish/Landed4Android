@@ -11,6 +11,8 @@ using namespace DroidJNI;
 
 namespace DroidJNI {
 
+//    QString castJStrToQStr(JNIEnv *env, jstring jstr) {
+
     QString castJStrToQStr(JNIEnv *env, jstring jstr) {
         if (jstr != NULL) {
             //if GetStringUTFChars is fed NULL it goes bang.
@@ -24,20 +26,60 @@ namespace DroidJNI {
         }
     }
 
-//    QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const QString &fieldName, const QString &fieldTypeSignature) {
-//        jclass cls = env->GetObjectClass(jobj);
-//        jfieldID fieldId = env->GetFieldID(cls, fieldName.toUtf8().constData(), fieldTypeSignature.toUtf8().constData());
-//        jstring jstr = (jstring)env->GetObjectField(jobj, fieldId);
-//        return castJStrToQStr(env, jstr);
-//    }
-
-
     QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
         jclass cls = env->GetObjectClass(jobj);
         jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
         jstring jstr = (jstring)env->GetObjectField(jobj, fieldId);
         return castJStrToQStr(env, jstr);
     }
+
+    QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+        QStringList qlist;
+
+
+        jclass cls = env->GetObjectClass(jobj);
+        jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
+        jobjectArray jstringArray = (jobjectArray)env->GetObjectField(jobj, fieldId);
+        int size = env->GetArrayLength(jstringArray);
+
+        for (int i=0; i < size; ++i)
+        {
+            jstring jstr = (jstring)env->GetObjectArrayElement(jstringArray, i);
+            QString qstr = castJStrToQStr(env, jstr);
+            //qDebug() << "droidJniUtils: getJObjectFieldArray: " + qstr;
+            qlist.append(qstr);
+        }
+        return qlist;
+    }
+
+ /*
+
+
+//Stackoverflow examples
+int size = env->GetArrayLength(stringArrays);
+
+for (int i=0; i < size; ++i)
+{
+    jstring string = env->GetObjectArrayElement(stringArrays, i);
+    const char* mayarray = env->GetStringUTFChars(string, 0);
+    .... do some work or copy it to a c++ array of char*....
+    env->ReleaseStringUTFChars(string, myarray);
+    env->DeleteLocalRef(string);
+}
+
+
+
+    void MyJNIFunction(JNIEnv *env, jobject object, jobjectArray stringArray) {
+
+        int stringCount = env->GetArrayLength(stringArray);
+
+        for (int i=0; i<stringCount; i++) {
+            jstring string = (jstring) GetObjectArrayElement(env, stringArray, i);
+            const char *rawString = GetStringUTFChars(env, string, 0);
+            // Don't forget to call `ReleaseStringUTFChars` when you're done.
+        }
+    }
+   */
 
 }
 

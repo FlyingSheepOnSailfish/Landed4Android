@@ -63,6 +63,7 @@ namespace DroidJNI {
         contact.setDisplayLabel(getJObjectFieldValue(env, jcontact, "displayLabel", "Ljava/lang/String;"));
         contact.setFirstName(getJObjectFieldValue(env, jcontact, "firstName", "Ljava/lang/String;"));
         contact.setLastName(getJObjectFieldValue(env, jcontact, "lastName", "Ljava/lang/String;"));
+        contact.setPhoneNumbers(getJObjectFieldArray(env, jcontact, "phoneNumbers", "[Ljava/lang/String;"));
         contact.setPhoneNumber(getJObjectFieldValue(env, jcontact, "phoneNumber", "Ljava/lang/String;"));
         ContactsHelper::instance()->contactFound(index, count, contact);
     }
