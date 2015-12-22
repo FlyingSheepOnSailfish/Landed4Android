@@ -23,10 +23,10 @@ public:
 
     Contact();
     Contact(const Contact &other);
+    Contact(JNIEnv *env, jobject jcontact);
     ~Contact();
 
     Q_PROPERTY(QString contactId MEMBER m_contactId)
-    //Q_PROPERTY(QString displayLabel MEMBER m_displayLabel)
     Q_PROPERTY(ContactDisplayLabel displayLabel MEMBER m_displayLabel)
     Q_PROPERTY(ContactName name MEMBER m_contactName)
     Q_PROPERTY(QString phoneNumber MEMBER m_phoneNumber)

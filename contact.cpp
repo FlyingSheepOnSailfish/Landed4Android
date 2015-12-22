@@ -15,18 +15,17 @@ Contact::Contact(const Contact &other) {
     m_phoneNumbersCount = other.m_phoneNumbersCount;
 }
 
+
+Contact::Contact(JNIEnv *env, jobject jcontact) {
+    m_displayLabel = ContactDisplayLabel(env, getJObjectChildJObject(env, jcontact, "displayLabel", "Lorg/flyingsheep/landed/ContactDisplayLabel;"));
+}
+
 Contact::~Contact() {}
 
 void Contact::setContactId(const QString contactId) {
     //qDebug() << "Contact: setting contactId: " << contactId;
     m_contactId = contactId;
 }
-
-////expose displayLabel flat, rather than as displayLabel object
-//void Contact::setDisplayLabel(const QString displayLabel) {
-//    //qDebug() << "Contact: setting displayLabel: " << displayLabel;
-//    m_displayLabel.setlabel(displayLabel);
-//}
 
 void Contact::setDisplayLabel(JNIEnv *env, const jobject jcontact) {
     m_displayLabel = ContactDisplayLabel(getJObjectFieldStringValue(env, jcontact, "label"));
