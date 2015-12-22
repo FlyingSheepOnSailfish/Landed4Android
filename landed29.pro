@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     aui.cpp \
     contact.cpp \
     contactname.cpp \
-    contactdisplaylabel.cpp
+    contactdisplaylabel.cpp \
+    contactphonenumber.cpp
 
 RESOURCES += qml.qrc
 
@@ -36,7 +37,10 @@ DISTFILES += \
     android/src/LandedActivity.java \
     android/src/TorchHelperMarshmallow.java \
     android/src/TorchHelperLollipop.java \
-    android/src/Contact.java
+    android/src/Contact.java \
+    android/src/ContactPhoneNumber.java \
+    android/src/ContactName.java \
+    android/src/ContactDisplayLabel.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 
@@ -53,5 +57,6 @@ HEADERS += \
     auipagestatus.h \
     contact.h \
     contactname.h \
-    contactdisplaylabel.h
+    contactdisplaylabel.h \
+    contactphonenumber.h
 

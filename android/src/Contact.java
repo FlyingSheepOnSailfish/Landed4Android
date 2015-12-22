@@ -1,4 +1,4 @@
-package org.flyingsheep.landed.landed29;
+package org.flyingsheep.landed;
 
 //This structure will be filled by ContactsHelper.java, and passed via JNI back to C++
 public class Contact {

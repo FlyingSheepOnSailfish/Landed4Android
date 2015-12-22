@@ -2,6 +2,7 @@
 #include "contact.h"
 #include "contactname.h"
 #include "contactdisplaylabel.h"
+#include "contactphonenumber.h"
 #include <QtAndroidExtras/QtAndroid>
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QtAndroidExtras/QAndroidJniEnvironment>

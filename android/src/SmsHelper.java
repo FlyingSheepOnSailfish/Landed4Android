@@ -1,4 +1,4 @@
-package org.flyingsheep.landed.landed29;
+package org.flyingsheep.landed;
 
 import org.qtproject.qt5.android.bindings.QtApplication;
 import android.app.Activity;

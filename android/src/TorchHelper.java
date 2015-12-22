@@ -1,4 +1,4 @@
-package org.flyingsheep.landed.landed29;
+package org.flyingsheep.landed;
 
 public interface TorchHelper {
 

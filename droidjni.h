@@ -12,7 +12,7 @@ namespace DroidJNI {
     QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
     QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
 
-    const char* const classname = "org/flyingsheep/landed/landed29/LandedActivity";
+    const char* const classname = "org/flyingsheep/landed/LandedActivity";
 
     // Callbacks from java to C++
     // The implementations of these are found at the end of relevant class file
@@ -31,7 +31,7 @@ namespace DroidJNI {
         //2) signature (void string)
         //3) equivalent name of the function in C++
         {"allContactsSent", "()V", (void *)allContactsSentByJava},
-        {"contactFound", "(IILorg/flyingsheep/landed/landed29/Contact;)V", (void *)contactFoundByJava},
+        {"contactFound", "(IILorg/flyingsheep/landed/Contact;)V", (void *)contactFoundByJava},
         {"smsSent", "(Ljava/lang/String;)V", (void *)smsSentFromJava},
         {"smsDelivered", "(Ljava/lang/String;)V", (void *)smsDeliveredFromJava}
     };
