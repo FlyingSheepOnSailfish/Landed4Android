@@ -60,13 +60,9 @@ namespace DroidJNI {
     void contactFoundByJava(JNIEnv *env, jclass /*clazz*/, jint index, jint count, jobject jcontact)
     {
         Contact contact(env, jcontact);
-        contact.setContactId(getJObjectFieldStringValue(env, jcontact, "contactId"));
-        //this will pass a jobject to contact, however, contact should set displayLabel itself, thats our next step!
-        //contact.setDisplayLabel(env, getJObjectChildJObject(env, jcontact, "displayLabel", "Lorg/flyingsheep/landed/ContactDisplayLabel;"));
         contact.setFirstName(getJObjectFieldStringValue(env, jcontact, "firstName"));
         contact.setLastName(getJObjectFieldStringValue(env, jcontact, "lastName"));
         contact.setPhoneNumbers(getJObjectFieldArray(env, jcontact, "phoneNumbers", "[Ljava/lang/String;"));
-        contact.setPhoneNumber(getJObjectFieldStringValue(env, jcontact, "phoneNumber"));
         ContactsHelper::instance()->contactFound(index, count, contact);
     }
 
