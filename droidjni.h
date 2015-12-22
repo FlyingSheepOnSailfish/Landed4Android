@@ -11,6 +11,7 @@ namespace DroidJNI {
     QString castJStrToQStr(JNIEnv *env, jstring jstr);
     QString getJObjectFieldStringValue(JNIEnv *env, const jobject &jobj, const char *fieldName);
     QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
+    jobject getJObjectChildJObject(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
 
     const char* const classname = "org/flyingsheep/landed/LandedActivity";
 

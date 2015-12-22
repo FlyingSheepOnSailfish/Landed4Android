@@ -1,14 +1,20 @@
 #ifndef CONTACT_H
 #define CONTACT_H
 
+#include "droidjni.h"
 #include "contactname.h"
 #include "contactdisplaylabel.h"
 #include <QDebug>
 #include <QMetaType>
+#include <QtAndroidExtras/QAndroidJniEnvironment>
 #include <QStringList>
 
 //This simple data structure will be passed from C++ ContactsHelper class
 //to QML PhoneContactsBackEnd.qml
+
+using namespace DroidJNI;
+
+namespace DroidJNI {
 
 class Contact
 {
@@ -27,8 +33,10 @@ public:
     Q_PROPERTY(QStringList phoneNumbers MEMBER m_phoneNumbers)
     Q_PROPERTY(int phoneNumbersCount MEMBER m_phoneNumbersCount)
 
-    void setContactId(const QString contactId) ;
-    void setDisplayLabel(const QString displayLabel) ;
+    void setContactId(const QString contactId);
+    //void setDisplayLabel(const QString displayLabel);
+    void setDisplayLabel(JNIEnv *env, const jobject jcontact);
+
     //Here we expose the names to ContactHelper "flat" as strings, rather than as a contactName object
     void setFirstName(const QString firstName);
     void setLastName(const QString lastName);
@@ -46,6 +54,7 @@ private:
     int m_phoneNumbersCount;
 };
 
-Q_DECLARE_METATYPE(Contact)
+}
 
+Q_DECLARE_METATYPE(Contact)
 #endif // CONTACT_H

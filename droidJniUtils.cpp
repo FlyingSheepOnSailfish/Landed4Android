@@ -34,6 +34,13 @@ namespace DroidJNI {
         return castJStrToQStr(env, jstr);
     }
 
+    jobject getJObjectChildJObject(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+        jclass cls = env->GetObjectClass(jobj);
+        jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
+        jobject jChildObject = (jobject)env->GetObjectField(jobj, fieldId);
+        return jChildObject;
+    }
+
     QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
         QStringList qlist;
 

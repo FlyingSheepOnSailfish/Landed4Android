@@ -1,8 +1,14 @@
 #ifndef CONTACTDISPLAYLABEL_H
 #define CONTACTDISPLAYLABEL_H
 
+#include "droidjni.h"
 #include <QDebug>
 #include <QMetaType>
+#include <QtAndroidExtras/QAndroidJniEnvironment>
+
+using namespace DroidJNI;
+
+namespace DroidJNI {
 
 class ContactDisplayLabel
 {
@@ -10,6 +16,8 @@ class ContactDisplayLabel
 public:
     ContactDisplayLabel();
     ContactDisplayLabel(const ContactDisplayLabel &other);
+    ContactDisplayLabel(const QString label);
+    ContactDisplayLabel(JNIEnv *env, jobject jcontactDisplayLabel);
     ~ContactDisplayLabel();
 
     Q_PROPERTY(QString label MEMBER m_label)
@@ -22,5 +30,7 @@ private:
     QString m_label;
 
 };
+}
 
+Q_DECLARE_METATYPE(ContactDisplayLabel)
 #endif // CONTACTDISPLAYLABEL_H

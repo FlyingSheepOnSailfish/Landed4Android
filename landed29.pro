@@ -40,6 +40,7 @@ DISTFILES += \
     android/src/Contact.java \
     android/src/ContactPhoneNumber.java \
     android/src/ContactName.java \
+    android/src/ContactDisplayLabel.java \
     android/src/ContactDisplayLabel.java
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

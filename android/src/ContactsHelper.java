@@ -86,7 +86,8 @@ public class ContactsHelper {
                     int index = contactCursor.getPosition() + 1;
                     Contact contact = new Contact();
                     contact.contactId = getColumnValue(contactCursor, Contacts._ID);
-                    contact.displayLabel = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
+                    //contact.displayLabel = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
+                    contact.displayLabel = setDisplayLabel(getColumnValue(contactCursor, Contacts.DISPLAY_NAME));
                     setNamesForContact(contact, id, cr);
                     //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
                     contact.phoneNumbers = getNumbersForContact(id, cr);
@@ -98,6 +99,12 @@ public class ContactsHelper {
             }
             contactCursor.close();
         }
+    }
+
+    private ContactDisplayLabel setDisplayLabel(String label) {
+        ContactDisplayLabel contactDisplayLabel = new ContactDisplayLabel();
+        contactDisplayLabel.label = label;
+        return contactDisplayLabel;
     }
 
     private void setNamesForContact(Contact contact, String id, ContentResolver cr) {

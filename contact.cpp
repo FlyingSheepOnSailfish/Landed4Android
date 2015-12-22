@@ -22,11 +22,16 @@ void Contact::setContactId(const QString contactId) {
     m_contactId = contactId;
 }
 
-//expose displayLabel flat, rather than as displayLabel object
-void Contact::setDisplayLabel(const QString displayLabel) {
-    //qDebug() << "Contact: setting displayLabel: " << displayLabel;
-    m_displayLabel.setlabel(displayLabel);
+////expose displayLabel flat, rather than as displayLabel object
+//void Contact::setDisplayLabel(const QString displayLabel) {
+//    //qDebug() << "Contact: setting displayLabel: " << displayLabel;
+//    m_displayLabel.setlabel(displayLabel);
+//}
+
+void Contact::setDisplayLabel(JNIEnv *env, const jobject jcontact) {
+    m_displayLabel = ContactDisplayLabel(getJObjectFieldStringValue(env, jcontact, "label"));
 }
+
 
 //Here we expose the names flat, rather than as contactName object
 void Contact::setFirstName(const QString firstName) {
