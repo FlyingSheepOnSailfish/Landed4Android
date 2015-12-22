@@ -26,7 +26,8 @@ namespace DroidJNI {
         }
     }
 
-    QString getJObjectFieldValue(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+    QString getJObjectFieldStringValue(JNIEnv *env, const jobject &jobj, const char *fieldName) {
+        char *fieldTypeSignature = "Ljava/lang/String;";
         jclass cls = env->GetObjectClass(jobj);
         jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
         jstring jstr = (jstring)env->GetObjectField(jobj, fieldId);
