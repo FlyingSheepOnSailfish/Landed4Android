@@ -60,8 +60,6 @@ namespace DroidJNI {
     void contactFoundByJava(JNIEnv *env, jclass /*clazz*/, jint index, jint count, jobject jcontact)
     {
         Contact contact(env, jcontact);
-        contact.setFirstName(getJObjectFieldStringValue(env, jcontact, "firstName"));
-        contact.setLastName(getJObjectFieldStringValue(env, jcontact, "lastName"));
         contact.setPhoneNumbers(getJObjectFieldArray(env, jcontact, "phoneNumbers", "[Ljava/lang/String;"));
         ContactsHelper::instance()->contactFound(index, count, contact);
     }

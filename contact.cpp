@@ -19,6 +19,8 @@ Contact::Contact(const Contact &other) {
 Contact::Contact(JNIEnv *env, jobject jcontact) {
     m_contactId = getJObjectFieldStringValue(env, jcontact, "contactId");
     m_displayLabel = ContactDisplayLabel(env, getJObjectChildJObject(env, jcontact, "displayLabel", "Lorg/flyingsheep/landed/ContactDisplayLabel;"));
+    m_contactName = ContactName(env, getJObjectChildJObject(env, jcontact, "name", "Lorg/flyingsheep/landed/ContactName;"));
+
     m_phoneNumber = getJObjectFieldStringValue(env, jcontact, "phoneNumber");
 }
 

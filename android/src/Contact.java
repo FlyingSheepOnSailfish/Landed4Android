@@ -4,10 +4,10 @@ package org.flyingsheep.landed;
 public class Contact {
 
     public String contactId;
-    //public String displayLabel;
     public ContactDisplayLabel displayLabel;
-    public String firstName;
-    public String lastName;
+    public ContactName name;
+    //public String firstName;
+    //public String lastName;
     public String phoneNumber;
     public String phoneNumbers[];
     public int phoneNumbersCount;

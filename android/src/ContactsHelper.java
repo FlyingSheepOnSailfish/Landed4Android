@@ -86,9 +86,8 @@ public class ContactsHelper {
                     int index = contactCursor.getPosition() + 1;
                     Contact contact = new Contact();
                     contact.contactId = getColumnValue(contactCursor, Contacts._ID);
-                    //contact.displayLabel = getColumnValue(contactCursor, Contacts.DISPLAY_NAME);
                     contact.displayLabel = setDisplayLabel(getColumnValue(contactCursor, Contacts.DISPLAY_NAME));
-                    setNamesForContact(contact, id, cr);
+                    contact.name = setNames(id, cr);
                     //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
                     contact.phoneNumbers = getNumbersForContact(id, cr);
                     contact.phoneNumbersCount =  contact.phoneNumbers.length;
@@ -107,19 +106,20 @@ public class ContactsHelper {
         return contactDisplayLabel;
     }
 
-    private void setNamesForContact(Contact contact, String id, ContentResolver cr) {
+    private ContactName setNames(String id, ContentResolver cr) {
+        ContactName contactName = new ContactName();
         //get the first and last names from a separate table
         String whereName = ContactsContract.Data.CONTACT_ID + " = ? AND " + ContactsContract.Data.MIMETYPE + " = ?";
         String[] whereNameParams = new String[]{id, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
         Cursor nameCur = cr.query(ContactsContract.Data.CONTENT_URI, null, whereName, whereNameParams, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
         while (nameCur.moveToNext()) {
-            contact.firstName  = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
-            contact.lastName = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
+            contactName.firstName  = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+            contactName.lastName = nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));
             //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
         }
         nameCur.close();
+        return contactName;
     }
-
 
     //return an array of numbers for the contact
     private String[] getNumbersForContact(String id, ContentResolver cr) {
