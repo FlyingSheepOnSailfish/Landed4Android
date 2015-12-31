@@ -18,7 +18,7 @@ Item {
         //font.pixelSize: LandedTheme.FontSizeMedium; //SailfishOS
         font.pixelSize: LandedTheme.FontSizeLarge;
         //font.weight: Font.DemiBold; //SailfishOS, looks too heavy on Android
-        text: model.displayLabel;
+        text: model.displayLabel.label;
         //color: "lightblue"
         color: "blue";
         height: LandedTheme.ListItemHeight;

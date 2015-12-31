@@ -1,8 +1,14 @@
 #ifndef CONTACTPHONENUMBER_H
 #define CONTACTPHONENUMBER_H
 
+#include "droidjni.h"
 #include <QDebug>
 #include <QMetaType>
+#include <QtAndroidExtras/QAndroidJniEnvironment>
+
+using namespace DroidJNI;
+
+namespace DroidJNI {
 
 class ContactPhoneNumber
 {
@@ -10,6 +16,7 @@ class ContactPhoneNumber
 public:
     ContactPhoneNumber();
     ContactPhoneNumber(const ContactPhoneNumber &other);
+    ContactPhoneNumber(JNIEnv *env, jobject jcontactPhoneNumber);
     ~ContactPhoneNumber();
 
     Q_PROPERTY(QString number MEMBER m_number)
@@ -27,6 +34,7 @@ private:
     int m_type;
 };
 
+}
 Q_DECLARE_METATYPE(ContactPhoneNumber)
 
 #endif // CONTACTPHONENUMBER_H

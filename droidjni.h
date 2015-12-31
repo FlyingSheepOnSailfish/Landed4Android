@@ -7,10 +7,11 @@
 
 namespace DroidJNI {
 
-    //QString castJStrToQStr(JNIEnv *env, jstring jstr);
     QString castJStrToQStr(JNIEnv *env, jstring jstr);
+    int getJObjectFieldIntValue(JNIEnv *env, const jobject &jobj, const char *fieldName);
     QString getJObjectFieldStringValue(JNIEnv *env, const jobject &jobj, const char *fieldName);
-    QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
+    QStringList getJObjectFieldStringArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
+    jobjectArray getJObjectFieldObjectArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
     jobject getJObjectChildJObject(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature);
 
     const char* const classname = "org/flyingsheep/landed/LandedActivity";

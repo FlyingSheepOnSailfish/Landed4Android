@@ -6,10 +6,8 @@ public class Contact {
     public String contactId;
     public ContactDisplayLabel displayLabel;
     public ContactName name;
-    //public String firstName;
-    //public String lastName;
     public String phoneNumber;
-    public String phoneNumbers[];
+    public ContactPhoneNumber phoneNumbers[];
     public int phoneNumbersCount;
 
 }

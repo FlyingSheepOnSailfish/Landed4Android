@@ -28,6 +28,8 @@ void ContactsHelper::registerTypes() {
     QMetaType::registerComparators<ContactName>();
     qRegisterMetaType<ContactDisplayLabel>();
     QMetaType::registerComparators<ContactDisplayLabel>();
+    qRegisterMetaType<ContactPhoneNumber>();
+    QMetaType::registerComparators<ContactPhoneNumber>();
 }
 
 void ContactsHelper::getContacts()
@@ -60,13 +62,12 @@ namespace DroidJNI {
     void contactFoundByJava(JNIEnv *env, jclass /*clazz*/, jint index, jint count, jobject jcontact)
     {
         Contact contact(env, jcontact);
-        contact.setPhoneNumbers(getJObjectFieldArray(env, jcontact, "phoneNumbers", "[Ljava/lang/String;"));
+//TODO NEXT, phoneNumbers array of objects!!!!
+        //contact.setPhoneNumbers(getJObjectFieldArray(env, jcontact, "phoneNumbers", "[Ljava/lang/String;"));
         ContactsHelper::instance()->contactFound(index, count, contact);
     }
 
-    //http://stackoverflow.com/questions/14036004/how-to-convert-jobject-to-jstring
-    //http://stackoverflow.com/questions/5972207/passing-string-array-from-java-to-c-with-jni
-    //http://stackoverflow.com/questions/19591873/get-an-array-of-strings-from-java-to-c-jni
+
 
 }
 

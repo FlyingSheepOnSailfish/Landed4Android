@@ -89,9 +89,9 @@ public class ContactsHelper {
                     contact.displayLabel = setDisplayLabel(getColumnValue(contactCursor, Contacts.DISPLAY_NAME));
                     contact.name = setNames(id, cr);
                     //Log.d(QtApplication.QtTAG, "ContactsHelper.java: firstName: " + contact.firstName + ", lastName: " + contact.lastName);
-                    contact.phoneNumbers = getNumbersForContact(id, cr);
+                    contact.phoneNumbers = setNumbers(id, cr);
                     contact.phoneNumbersCount =  contact.phoneNumbers.length;
-                    contact.phoneNumber = contact.phoneNumbers[0];
+                    contact.phoneNumber = contact.phoneNumbers[0].number;
                     //new call, return data structure "contact" to C++
                     landed.contactFound(index, count, contact);
                 }
@@ -121,8 +121,8 @@ public class ContactsHelper {
         return contactName;
     }
 
-    //return an array of numbers for the contact
-    private String[] getNumbersForContact(String id, ContentResolver cr) {
+    //return an array of number objects for the contact
+    private ContactPhoneNumber[] setNumbers(String id, ContentResolver cr) {
         //ensure numbers returned are deduplicated
         Uri phoneUri = deduplicateQuery(Phone.CONTENT_URI);
         Cursor phoneCursor = cr.query(phoneUri,
@@ -130,12 +130,15 @@ public class ContactsHelper {
             Phone.CONTACT_ID + " = ?",
             new String[] {id},
             null);
-        String[] numbers = new String[phoneCursor.getCount()];
+        ContactPhoneNumber[] numbers = new ContactPhoneNumber[phoneCursor.getCount()];
         while (phoneCursor.moveToNext()) {
             String phoneNumber = getColumnValue(phoneCursor, Phone.NUMBER);
-            String numType = getColumnValue(phoneCursor, Phone.TYPE);
+            int numType = Integer.parseInt(getColumnValue(phoneCursor, Phone.TYPE));
             //Log.d(QtApplication.QtTAG,"Phone number: " + phoneNumber + " type: " + numType);
-            numbers[phoneCursor.getPosition()] = phoneNumber;
+            ContactPhoneNumber number = new ContactPhoneNumber();
+            number.number = phoneNumber;
+            number.type = numType;
+            numbers[phoneCursor.getPosition()] = number;
         }
         phoneCursor.close();
         return numbers;

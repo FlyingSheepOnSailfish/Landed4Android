@@ -21,6 +21,20 @@ Contact::Contact(JNIEnv *env, jobject jcontact) {
     m_displayLabel = ContactDisplayLabel(env, getJObjectChildJObject(env, jcontact, "displayLabel", "Lorg/flyingsheep/landed/ContactDisplayLabel;"));
     m_contactName = ContactName(env, getJObjectChildJObject(env, jcontact, "name", "Lorg/flyingsheep/landed/ContactName;"));
 
+    jobjectArray jObjArray = getJObjectFieldObjectArray(env, jcontact, "phoneNumbers", "[Lorg/flyingsheep/landed/ContactPhoneNumber;");
+//  The jobjectArray is now filled with jobjects
+//  We must now cycle through it, and cast each of the jobjects with its phoneNumber equivalent Qt Custom Object
+
+    int size = env->GetArrayLength(jObjArray);
+    qDebug() << "Contact: Array has members: " << size;
+    for (int i=0; i < size; ++i)
+    {
+        jobject jobj = (jobject)env->GetObjectArrayElement(jObjArray, i);
+        //cast jobj to phoneNumber, then cast to QVariant to be able to append to QVariantList
+        ContactPhoneNumber temp = ContactPhoneNumber(env, jobj);
+        m_phoneNumbers.append(QVariant::fromValue(temp));
+    }
+
     m_phoneNumber = getJObjectFieldStringValue(env, jcontact, "phoneNumber");
 }
 
@@ -52,7 +66,7 @@ void Contact::setPhoneNumber(const QString phoneNumber) {
     m_phoneNumber = phoneNumber;
 }
 
-void Contact::setPhoneNumbers(const QStringList phoneNumbers) {
+void Contact::setPhoneNumbers(const QVariantList phoneNumbers) {
     qDebug() << "Contact: setting phoneNumbers: " << phoneNumbers;
     m_phoneNumbers = phoneNumbers;
 }

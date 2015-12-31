@@ -38,13 +38,15 @@ AUIPage {id: contactDialog
     Component {
         id: numbersViewHeader
         Text {
-            height: 96
+            //height: 96
+            height: LandedTheme.ListItemHeight;
             anchors {left: parent.left; leftMargin: 20; right: parent.right; rightMargin: 20}
             font.pixelSize: contactDialog.phoneNumberDelegatepixelSize;
             font.weight: Font.Bold
             text: contactDialog.titleText
             horizontalAlignment: Text.AlignRight
-            color: "white"
+            //color: "white" //SailfishOS
+            color: "blue"
         }
     }
 
@@ -52,14 +54,16 @@ AUIPage {id: contactDialog
     Component {
         id: phoneNumberDelegate
         Text {
-            height: 96
+            //height: 96
+            height: LandedTheme.ListItemHeight;
             anchors {left: parent.left; leftMargin: 20; right: parent.right; rightMargin: 20}
             font.pixelSize: contactDialog.phoneNumberDelegatepixelSize;
             font.weight: Font.Light
             //
             text: model.num //+ " " + model.type
             horizontalAlignment: Text.AlignRight
-            color: "white"
+            //color: "white" //SailfishOS
+            color: "blue"
             MouseArea {
                 anchors.fill: parent
                 onPressed: {

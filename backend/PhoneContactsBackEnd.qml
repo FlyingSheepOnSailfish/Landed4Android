@@ -41,27 +41,37 @@ Item {
     ListModel {
         id: localContactModelInternal
 
-        property string role2FilterOn: "displayLabel";
+        property string role2FilterOn: "filterLabel";
         function populate() {
             clear();
             contactsHelper.getContacts();
         }
 
         function appendContact(contact) {
-            console.log("appending: " + contact.displayLabel.label);
-            localContactModel.append({"contactId": contact.contactId,
-                                  "displayLabel": contact.displayLabel.label,
-                                  "firstName": contact.name.firstName,
-                                  "lastName": contact.name.lastName,
-                                  "phoneNumber": contact.phoneNumber,
-                                  "phoneNumbers": contact.phoneNumbers,
-                                  "phoneNumbersCount": contact.phoneNumbers.length});
+            console.log("appendContact: " + contact.displayLabel.label);
+            console.log("appendContact: phoneNumbers size : " + contact.phoneNumbers.length);
+            var numbers = [];
+            for(var i = 0; i < contact.phoneNumbers.length; i++) {
+                console.log("appendContact: number: " + contact.phoneNumbers[i].number);
+                numbers.push( {"number": contact.phoneNumbers[i].number, "type": contact.phoneNumbers[i].type});
+            }
 
-//TODO: phoneNumber.length is available here, but later when our localContactModel is used, it is no longer available
-//How does this get lost?
-            //console.log("appending: " + contact.displayLabel.label + ", numbers: " + contact.phoneNumbers.length)
-            //phoneNumbers is a dynamic property of ContactModel, and is only partially documented
-            //harmattan uses contact.displayLabel, sailfish contact.displayLabel.label
+            //Note we need to explicitly map all the properties of child objects
+            //while we could just append "displayLabel": contact.displayLabel,
+            //in the delegate displayLabel will be undefined, and thus not accessible.
+            //Should the objects become complexer, than we could abandon the QML ListModel, and create a subclass of QAbstractItemModel
+            //See http://stackoverflow.com/questions/34546485/accessing-properties-of-child-objects-stored-in-a-qml-listmodel
+            localContactModel.append({"contactId": contact.contactId,
+                                         "filterLabel": contact.displayLabel.label,
+                                  "displayLabel": {"label": contact.displayLabel.label},
+                                  "name": {"firstName": contact.name.firstName,
+                                            "lastName": contact.name.lastName},
+                                  "phoneNumber": contact.phoneNumber,
+                                  "phoneNumbers": numbers,
+                                  "phoneNumbersCount": contact.phoneNumbers.length});
+            //Note the role "filterLabel" will be used by IPC via the property role2FilterOn to filter on!
+            //the role must be at base level of the model.
+
         }
     }
 
@@ -70,21 +80,20 @@ Item {
         id: contactNumbersModelInternal
 
         function loadNumbers(contact) {
-            console.log("loadNumbers: name to load: " + contact.displayLabel)
+            console.log("loadNumbers: name to load: " + contact.displayLabel.label)
             console.log("loadNumbers: numbers to load: " + contact.phoneNumbersCount);
-            console.log("loadNumbers: numbers to load2: " + contact.phoneNumbers.length);
+            //console.log("loadNumbers: numbers to load2: " + contact.phoneNumbers.length); //gives undefined
+            console.log("loadNumbers: numbers to load3: " + contact.phoneNumbers.count); //gives expected size
             contactNumbersModelInternal.clear();
             for(var i = 0; i < contact.phoneNumbersCount; i++) {
-                //console.log("appending number" + contact.phoneNumbers[i] + ", " + contact.phoneNumbers[i].number + ", " + contact.phoneNumbers[i].subTypes[0] + ", " + contact.displayLabel )
-                //var subType = (contact.phoneNumbers[i].subTypes[0] === undefined) ? "" : contact.phoneNumbers[i].subTypes[0]
+                console.log("1) appending number: " + contact.phoneNumbers.get(i).number);
+                contactNumbersModelInternal.append({"num": contact.phoneNumbers.get(i).number,
+                                                    "type": contact.phoneNumbers.get(i).type,
+                                                    "name": contact.displayLabel.label});
                 //contactNumbersModelInternal.append({num: contact.phoneNumbers[i].number, type: subType, name: contact.displayLabel});
-//TODO: Decide do we want to keep numbers as
-//a) a "simple" QStringList, or
-//b) an object structure, inc subtype?
-
-                console.log("appending number: " + contact.phoneNumbers[i]);
-
             }
+        //Curiously, javascript methods like contact.phoneNumbers.length and contact.phoneNumbers[i].number don't work!
+        //This implies our container is not an a javascript array
         }
 
         function flushNumbers() {

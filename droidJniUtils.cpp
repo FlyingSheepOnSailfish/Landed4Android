@@ -26,6 +26,15 @@ namespace DroidJNI {
         }
     }
 
+    int getJObjectFieldIntValue(JNIEnv *env, const jobject &jobj, const char *fieldName) {
+        char *fieldTypeSignature = "I";
+        jclass cls = env->GetObjectClass(jobj);
+        jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
+        jint j_int = (jint)env->GetObjectField(jobj, fieldId);
+        return j_int;
+    }
+
+
     QString getJObjectFieldStringValue(JNIEnv *env, const jobject &jobj, const char *fieldName) {
         char *fieldTypeSignature = "Ljava/lang/String;";
         jclass cls = env->GetObjectClass(jobj);
@@ -41,7 +50,15 @@ namespace DroidJNI {
         return jChildObject;
     }
 
-    QStringList getJObjectFieldArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+    jobjectArray getJObjectFieldObjectArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
+        jclass cls = env->GetObjectClass(jobj);
+        jfieldID fieldId = env->GetFieldID(cls, fieldName, fieldTypeSignature);
+        jobjectArray jObjArray = (jobjectArray)env->GetObjectField(jobj, fieldId);
+
+        return jObjArray;
+    }
+
+    QStringList getJObjectFieldStringArray(JNIEnv *env, const jobject &jobj, const char *fieldName, const char *fieldTypeSignature) {
         QStringList qlist;
 
 
@@ -60,34 +77,9 @@ namespace DroidJNI {
         return qlist;
     }
 
- /*
-
-
-//Stackoverflow examples
-int size = env->GetArrayLength(stringArrays);
-
-for (int i=0; i < size; ++i)
-{
-    jstring string = env->GetObjectArrayElement(stringArrays, i);
-    const char* mayarray = env->GetStringUTFChars(string, 0);
-    .... do some work or copy it to a c++ array of char*....
-    env->ReleaseStringUTFChars(string, myarray);
-    env->DeleteLocalRef(string);
-}
-
-
-
-    void MyJNIFunction(JNIEnv *env, jobject object, jobjectArray stringArray) {
-
-        int stringCount = env->GetArrayLength(stringArray);
-
-        for (int i=0; i<stringCount; i++) {
-            jstring string = (jstring) GetObjectArrayElement(env, stringArray, i);
-            const char *rawString = GetStringUTFChars(env, string, 0);
-            // Don't forget to call `ReleaseStringUTFChars` when you're done.
-        }
-    }
-   */
+    //http://stackoverflow.com/questions/14036004/how-to-convert-jobject-to-jstring
+    //http://stackoverflow.com/questions/5972207/passing-string-array-from-java-to-c-with-jni
+    //http://stackoverflow.com/questions/19591873/get-an-array-of-strings-from-java-to-c-jni
 
 }
 

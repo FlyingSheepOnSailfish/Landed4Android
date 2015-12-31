@@ -88,13 +88,15 @@ Rectangle {
                 contactPicker.currentIndex = index;
             }
             onClicked: {
-                console.log("model.displayLabel: " + model.displayLabel)
-                console.log("model.phoneNumbers: " + model.phoneNumbers + " count: " + model.phoneNumbersCount)
+                console.log("contactDelegate: model.displayLabel.label: " + model.displayLabel.label)
+                //console.log("contactDelegate: model.phoneNumbers: " + model.phoneNumbers + " count: " + model.phoneNumbersCount)
+                console.log("contactDelegate: model.phoneNumbers: " + model.phoneNumbers + " count: " + model.phoneNumbers.length);
+
                 phoneContactBackEnd.contactNumbersModel.loadNumbers(model);
                 contactDialog.model = phoneContactBackEnd.nullModel;
-                console.log("phoneContactBackEnd.contactNumbersModel.count: " + phoneContactBackEnd.contactNumbersModel.count)
+                console.log("contactDelegate: phoneContactBackEnd.contactNumbersModel.count: " + phoneContactBackEnd.contactNumbersModel.count)
                 contactDialog.model = phoneContactBackEnd.contactNumbersModel;
-                contactDialog.titleText = model.displayLabel
+                contactDialog.titleText = model.displayLabel.label
                 pageStack.push(contactDialog);
             }
             onReleased: {
