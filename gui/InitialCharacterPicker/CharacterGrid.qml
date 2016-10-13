@@ -26,7 +26,7 @@ Column {
     }
 
     function createRows() {
-        console.log("CharacterGrid; rows already in grid: " + grid.children.length);
+        //console.log("CharacterGrid; rows already in grid: " + grid.children.length);
         if (grid.children.length > 0) {
             //if the grid already exists, due to a previous onContactsChanged signal, we need to destroy
             //existing child rows
@@ -37,7 +37,7 @@ Column {
             var component;
             var characterRow;
             var noRows = Math.ceil(charactersModel.length / grid.charactersPerRow)
-            console.log("dynamically creating " + noRows + " rows of " + grid.charactersPerRow + " for " + charactersModel.length + " chars")
+            //console.log("dynamically creating " + noRows + " rows of " + grid.charactersPerRow + " for " + charactersModel.length + " chars")
             for (var i=1; i <= noRows; i++) {
                 var rowName = "row" + i;
                 var rowChars = chars4Row(i);

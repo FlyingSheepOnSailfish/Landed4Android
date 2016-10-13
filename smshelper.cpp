@@ -3,6 +3,8 @@
 #include <QtAndroidExtras/QAndroidJniObject>
 #include <QDebug>
 
+SmsHelper *SmsHelper::m_instance = 0;
+
 SmsHelper::SmsHelper(QObject *parent) :
     QObject(parent)
 {
@@ -14,8 +16,6 @@ SmsHelper::~SmsHelper()
 {
 }
 
-SmsHelper *SmsHelper::m_instance = 0;
-
 void SmsHelper::sendSMS(const QString &contactIdentifier, const QString &message)
 {
     emit stateMsg(MessageState::Pending);
@@ -23,12 +23,17 @@ void SmsHelper::sendSMS(const QString &contactIdentifier, const QString &message
     QAndroidJniObject contact = QAndroidJniObject::fromString(contactIdentifier);
     QAndroidJniObject msg = QAndroidJniObject::fromString(message);
 
-
     QtAndroid::androidActivity().callMethod<void>("sendSMS",
-                                                          "(Ljava/lang/String;Ljava/lang/String;)V",
-                                                          contact.object<jstring>(),
-                                                          msg.object<jstring>());
-
+                                                              "(Ljava/lang/String;Ljava/lang/String;)V",
+                                                              contact.object<jstring>(),
+                                                              msg.object<jstring>());
+    /*
+    QAndroidJniObject::callStaticMethod<void>("org/flyingsheep/landed/LandedActivity",
+                                              "sendSMS",
+                                              "(Ljava/lang/String;Ljava/lang/String;)V",
+                                              contact.object<jstring>(),
+                                              msg.object<jstring>());
+    */
     qDebug() << "SmsHelper: sendSMS called 2";
 }
 
@@ -45,7 +50,7 @@ void SmsHelper::onSendMessageFinished(const QString &result)
 }
 
 
-//Callbacks from Andorid Java
+//Callbacks from Android Java
 #include "droidjni.h"
 namespace DroidJNI {
     using namespace DroidJNI;
@@ -79,4 +84,3 @@ namespace DroidJNI {
     }
 
 }
-

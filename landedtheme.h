@@ -36,23 +36,27 @@ class LandedTheme : public QObject
     Q_PROPERTY(int FontSizeSmall READ FontSizeSmall CONSTANT)
     Q_PROPERTY(int FontSizeVerySmall READ FontSizeVerySmall CONSTANT)
 
+    Q_PROPERTY(int TopMarginLarge READ TopMarginLarge CONSTANT)
+    Q_PROPERTY(int TopMarginMedium READ TopMarginMedium CONSTANT)
+    Q_PROPERTY(int TopMarginSmall READ TopMarginSmall CONSTANT)
+
 public:
     LandedTheme(QObject* parent = 0) : QObject(parent) {}
 
     int MarginSmall() const { return 10;}
     int MarginText() const { return 0;} //as sailfish is transparent, no margin needed on textarea / text edit etc.
 
-    QColor BackgroundColorA() const { return "white";}
+    QColor BackgroundColorA() const { return "#101010";}
     QColor BackgroundColorB() const { return "transparent";}
     QColor BackgroundColorC() const { return "transparent";}
     QColor BackgroundColorD() const { return "transparent";}
     QColor BackgroundColorE() const { return "transparent";}
 
-    QColor TextColorActive() const { return  "black";}
-    //QColor TextColorActive() const { return  "lightgreen";}
+    //QColor textColorActive() const { return  "black";}
+    QColor TextColorActive() const { return  "orange";}
     QColor TextColorEmergency() const { return  "red";}
     QColor TextColorInactive() const { return "grey";}
-    QColor LabelColorActive() const { return "black";}
+    QColor LabelColorActive() const { return "green";}
     //QColor LabelColorActive() const { return "lightgrey";}
     QColor LabelColorInactive() const { return "grey";}
 
@@ -63,17 +67,21 @@ public:
 
     //int LabelWidthShort() const {return 130;} //sailfish
     //int LabelWidthLong() const {return 320;} //sailfish
-    int LabelWidthShort() const {return 230;}
-    int LabelWidthLong() const {return 520;}
+    int LabelWidthShort() const {return 360;}
+    int LabelWidthLong() const {return 840;}
 
     //int ListItemHeight() const {return 70;} //sailfish
     int ListItemHeight() const {return 170;}
 
-    int FontSizeVeryLarge() const { return 72 * 2;}
-    int FontSizeLarge() const { return 40 * 2;}
-    int FontSizeMedium() const { return 32 * 2;}
-    int FontSizeSmall() const { return 24 * 2;}
-    int FontSizeVerySmall() const { return 16 * 2;}
+    int FontSizeVeryLarge() const { return 144;}
+    int FontSizeLarge() const { return 120;}
+    int FontSizeMedium() const { return 90;}
+    int FontSizeSmall() const { return 48;}
+    int FontSizeVerySmall() const { return 32;}
+
+    int TopMarginLarge() const { return 100;}
+    int TopMarginMedium() const { return 50;}
+    int TopMarginSmall() const { return 25;}
 
     /*
     //harmattan

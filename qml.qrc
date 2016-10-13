@@ -75,5 +75,6 @@
         <file alias="intentUrls.js">javascript/intentUrls.js</file>
         <file alias="message.js">javascript/message.js</file>
         <file alias="initialCharacterPicker.js">javascript/initialCharacterPicker.js</file>
+        <file>bearings.js</file>
     </qresource>
 </RCC>

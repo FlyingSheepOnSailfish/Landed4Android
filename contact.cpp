@@ -26,7 +26,7 @@ Contact::Contact(JNIEnv *env, jobject jcontact) {
 //  We must now cycle through it, and cast each of the jobjects with its phoneNumber equivalent Qt Custom Object
 
     int size = env->GetArrayLength(jObjArray);
-    qDebug() << "Contact: Array has members: " << size;
+    //qDebug() << "Contact: Array has members: " << size;
     for (int i=0; i < size; ++i)
     {
         jobject jobj = (jobject)env->GetObjectArrayElement(jObjArray, i);

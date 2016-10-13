@@ -46,7 +46,7 @@ void ContactsHelper::getContacts()
     }
 }
 
-//Callbacks from Andorid Java
+//Callbacks from Android to Java
 #include "droidjni.h"
 namespace DroidJNI {
     using namespace DroidJNI;

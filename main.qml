@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Dialogs 1.2
+import QtQuick.Controls.Styles 1.3 as QtQuickControlStyle
 import LandedTheme 1.0
 import JSONStorage 1.0
 import "javascript/settings.js" as SETTINGS
@@ -101,6 +102,14 @@ AUIPageStackWindow {
         onCancelled: pageStack.pop(smsPage);
     }
     menuBar: MenuBar {
+        /*
+        style: QtQuickControlStyle.MenuBarStyle {
+
+             background: Rectangle {
+                 color: orange
+             }
+        }
+        */
         Menu {
             title: "Database"
             MenuItem {

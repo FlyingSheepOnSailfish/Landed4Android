@@ -17,7 +17,7 @@ Item {
     Text{
         id: mainText
         text: thisHeader.text
-        font.pixelSize: LandedTheme.FontSizeLarge
+        font.pixelSize: LandedTheme.FontSizeMedium
         font.weight: Font.DemiBold
         //color: "black"
         color: thisHeader.textColor
@@ -25,7 +25,7 @@ Item {
     }
     Text{
         text: ">"
-        font.pixelSize: LandedTheme.FontSizeLarge
+        font.pixelSize: LandedTheme.FontSizeMedium
         font.weight: Font.DemiBold
         color: "white"
         //verticalAlignment: Text.AlignVCenter

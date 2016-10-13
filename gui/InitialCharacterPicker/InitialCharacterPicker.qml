@@ -98,7 +98,7 @@ Item {
         }
 
         function countHits4Character (charHits) {
-            console.log("starting countHits4Character for character: " + charHits.character + ", model members: " + model.count)
+            //console.log("starting countHits4Character for character: " + charHits.character + ", model members: " + model.count)
             charHits.hits = 0;
             charHits.startIndex = charHits.endIndex; //start where we last ended
             for (var j = charHits.startIndex; j < model.count; j++) {
@@ -106,20 +106,20 @@ Item {
                 //This means we can have a property role2Filter as a hint which role we use
                 //but would be free to use another if we so chose.
                 var value2FilterOn = model.get(j)[model.role2FilterOn];
-                console.log("countHits4Character: displayLabel: " + value2FilterOn);
+                //console.log("countHits4Character: displayLabel: " + value2FilterOn);
 
                 if (privateObject.filterMatch(value2FilterOn, charHits.character)) {
                     charHits.hits++;
                 } else {
                     if (charHits.hits > 0) {
-                        console.log("we have encountered a new character!");
+                        //console.log("we have encountered a new character!");
                     } else {
 //TODO add special handling here for character type
 //If the passed filter char is A-Z, and value2FilterOn is numeric, skip to next item
 //Or better said if chars are same type --> problem
 //if different type /number vs char, skip to next char.
 
-                        console.log("there are no hits for this char: " + charHits.character);
+                        //console.log("there are no hits for this char: " + charHits.character);
                     }
                     //In either case:
                     // a) abort this loop, and
@@ -137,7 +137,7 @@ Item {
                 but the only important factor is: 0 or > 0.  i.e. no hits vs. hits. The true number of hits is NOT used.
                 */
             }
-            console.log("ending countHits4Character for character: " + charHits.character + ", hits: " + charHits.hits + ", start: " + charHits.startIndex + ", end: " + charHits.endIndex);
+            //console.log("ending countHits4Character for character: " + charHits.character + ", hits: " + charHits.hits + ", start: " + charHits.startIndex + ", end: " + charHits.endIndex);
             return charHits;
         }
 
@@ -176,12 +176,12 @@ Item {
                     //normal character
                     charHits = countHits4Character(charHits);
                 }
-                console.log("populateModels: pushing: " + charHits.character + ", startIndex: " + charHits.startIndex + ", endIndex: " + charHits.endIndex);
+                //console.log("populateModels: pushing: " + charHits.character + ", startIndex: " + charHits.startIndex + ", endIndex: " + charHits.endIndex);
                 //clone the object before pushing ... to prevent subsequent changes affecting the pushed copies ...
                 var pushCharHits = charHits.clone();
                 charsModel.push({"character": pushCharHits.character, charHits: pushCharHits});
             }
-            console.log("populateModels: length: " + charsModel.length)
+            //console.log("populateModels: length: " + charsModel.length)
 
             //when charactersModel changes, the header and footer dynamically create their rows
             //any previously created rows are destroyed (see CharacterGrid.qml)
@@ -197,7 +197,7 @@ Item {
         id: filteredModel
         objectName: "filteredModel"
         function populate(model, filter) {
-            console.log("populating filteredModel for character: " + filter)
+            //console.log("populating filteredModel for character: " + filter)
             filteredModel.clear();
             if (filter =="") {
                 //leave the model empty
@@ -222,7 +222,7 @@ Item {
                 //filter on the chosen character
                 bulkAppend(model, filter);
             }
-            console.log("populated filteredModel with entries: " + filteredModel.count);
+            //console.log("populated filteredModel with entries: " + filteredModel.count);
         }
         function bulkAppend(model, filter) {
             var character = privateObject.getChar(filter);

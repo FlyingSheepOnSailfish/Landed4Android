@@ -17,7 +17,7 @@ TorchHelper::~TorchHelper()
 }
 void TorchHelper::initTorch() {
     //in SailfishOS, here we initiate via Gstreamer C++ api calls
-    //in Android, here we initiate via Andorid java api calls
+    //in Android, here we initiate via Android java api calls
     QtAndroid::androidActivity().callMethod<void>("initTorch");
 }
 

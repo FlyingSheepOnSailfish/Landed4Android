@@ -161,7 +161,7 @@ AUIPage {id: smsPage
         }
         onSendSMS: {
             console.log("about to send SMS to number: " + "tel:" + phoneNumber);
-            smsBackEnd.sendSMS("tel:" + phoneNumber, text);
+            smsBackEnd.sendSMS(phoneNumber, text);
             //The old SMSHelper used to emit this state, as a temporary workaround, do it here
             //later we can add this to the TelepathyHelper
             setState("ActiveState", null)
@@ -171,6 +171,9 @@ AUIPage {id: smsPage
     SMSBackEnd {
         id: smsBackEnd
         onMessageState: smsDisplay.setState(msgState, null);
+        onSmsSent: {
+            console.log("QML: SmsSent Signal received")
+        }
     }
 
     FavouriteContactsBackEnd {
@@ -178,4 +181,3 @@ AUIPage {id: smsPage
     }
 
 }
-

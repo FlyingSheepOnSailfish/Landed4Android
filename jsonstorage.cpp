@@ -1,4 +1,5 @@
 #include "jsonstorage.h"
+#include <QFileInfo>
 
 JSONStorage::JSONStorage(QObject *parent) :
     QObject(parent), _dbLevel(Prod), _settingsJson()
@@ -62,15 +63,27 @@ QString JSONStorage::buildFullPath(DBType dbType){
 QString JSONStorage::openDatabase(DBType dbType) {
 
     QString fullPath = buildFullPath(dbType);
-    QFile file;
-    file.setFileName(fullPath);
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString cargo;
-    cargo = file.readAll();
-    file.close();
-    //qDebug() << cargo;
+    QFileInfo check_file(fullPath);
 
-    return cargo;
+    if (check_file.exists() && check_file.isFile()) {
+       qDebug() << "File exists: " << fullPath;
+
+       QFile file;
+       file.setFileName(fullPath);
+       file.open(QIODevice::ReadOnly | QIODevice::Text);
+       qDebug() << "file.open error: "<< file.error();
+       QString cargo;
+       cargo = file.readAll();
+       file.close();
+       //qDebug() << cargo;
+
+       return cargo;
+    } else {
+        qDebug() << "File Not found: " << fullPath;
+        return "File Not found";
+    }
+
+
 }
 
 

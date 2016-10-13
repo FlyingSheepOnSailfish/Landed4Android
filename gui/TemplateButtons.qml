@@ -17,7 +17,7 @@ Item {
 
     //"outward" looking properties, should be bound by parent
     property int itemHeight: 60;
-    property int marginWidth: 10;
+    property int marginWidth: 0;
     property int headerHeight: itemHeight;
     property string headerText
     property string headerSubText

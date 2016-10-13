@@ -84,12 +84,12 @@ Item {id: thisGPSDisplay
     //GUI: GPS "Display" showing coords, alti, on off switche etc
     Column {id: coordsDisplay
         anchors.top: parent.top
-        anchors.topMargin: 10
+        anchors.topMargin: 20
         anchors.right: parent.right
-        anchors.rightMargin: 10
+        anchors.rightMargin: 20
         anchors.left: parent.left
-        anchors.leftMargin: 10
-        property int rowSpacing: 10
+        anchors.leftMargin: 20
+        property int rowSpacing: 50
         spacing: 4
 
         state: "stateGpsOff";

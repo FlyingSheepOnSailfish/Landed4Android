@@ -15,14 +15,14 @@ Item {
     ContactsHelper {
         id: contactsHelper;
         onContactFound: {
-            console.log ("QML: onContactFound signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
+            //console.log ("QML: onContactFound signal received for: " + index + " of " + count + ", displayLabel: " + contact.displayLabel);
             backEnd.index = index;
             backEnd.count = count;
             localContactModelInternal.appendContact(contact);
 //TODO, send signal to GUI, so loading indicator can show progress....
         }
 
-        onAllContactsSent: {         
+        onAllContactsSent: {
             console.log ("QML: onAllContactsSent signal received, sending signal backEnd.modelsPopulated()");
             backEnd.modelsPopulated();
         }
@@ -48,11 +48,11 @@ Item {
         }
 
         function appendContact(contact) {
-            console.log("appendContact: " + contact.displayLabel.label);
-            console.log("appendContact: phoneNumbers size : " + contact.phoneNumbers.length);
+            //console.log("appendContact: " + contact.displayLabel.label);
+            //console.log("appendContact: phoneNumbers size : " + contact.phoneNumbers.length);
             var numbers = [];
             for(var i = 0; i < contact.phoneNumbers.length; i++) {
-                console.log("appendContact: number: " + contact.phoneNumbers[i].number);
+                //console.log("appendContact: number: " + contact.phoneNumbers[i].number);
                 numbers.push( {"number": contact.phoneNumbers[i].number, "type": contact.phoneNumbers[i].type});
             }
 
@@ -94,6 +94,8 @@ Item {
             }
         //Curiously, javascript methods like contact.phoneNumbers.length and contact.phoneNumbers[i].number don't work!
         //This implies our container is not an a javascript array
+        //The QT docu http://doc.qt.io/qt-5/qml-qtqml-models-listmodel.html#example-usage
+        //ambiguously refers to roles containing [ ] as "list data"
         }
 
         function flushNumbers() {
